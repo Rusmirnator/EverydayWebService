@@ -1,37 +1,71 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "Everyday.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Everyday.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Everyday.Core.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Everyday.Core/1.0.0": {
+      "type": "project",
+      "path": "../Everyday.Core/Everyday.Core.csproj",
+      "msbuildProject": "../Everyday.Core/Everyday.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "Everyday.Core >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "/home/marcin/.nuget/packages/": {}
+    "C:\\Users\\ruson\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/marcin/Repos/EverydayWebService/Everyday.Services/Everyday.Services.csproj",
+      "projectUniqueName": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Services\\Everyday.Services.csproj",
       "projectName": "Everyday.Services",
-      "projectPath": "/home/marcin/Repos/EverydayWebService/Everyday.Services/Everyday.Services.csproj",
-      "packagesPath": "/home/marcin/.nuget/packages/",
-      "outputPath": "/home/marcin/Repos/EverydayWebService/Everyday.Services/obj/",
+      "projectPath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Services\\Everyday.Services.csproj",
+      "packagesPath": "C:\\Users\\ruson\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Services\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "/home/marcin/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ruson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj": {
+              "projectPath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -58,7 +92,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.408/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

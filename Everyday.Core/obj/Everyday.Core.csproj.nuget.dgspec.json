@@ -1,25 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "/home/marcin/Repos/EverydayWebService/Everyday.Core/Everyday.Core.csproj": {}
+    "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj": {}
   },
   "projects": {
-    "/home/marcin/Repos/EverydayWebService/Everyday.Core/Everyday.Core.csproj": {
+    "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/marcin/Repos/EverydayWebService/Everyday.Core/Everyday.Core.csproj",
+        "projectUniqueName": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj",
         "projectName": "Everyday.Core",
-        "projectPath": "/home/marcin/Repos/EverydayWebService/Everyday.Core/Everyday.Core.csproj",
-        "packagesPath": "/home/marcin/.nuget/packages/",
-        "outputPath": "/home/marcin/Repos/EverydayWebService/Everyday.Core/obj/",
+        "projectPath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj",
+        "packagesPath": "C:\\Users\\ruson\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "/home/marcin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ruson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -52,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

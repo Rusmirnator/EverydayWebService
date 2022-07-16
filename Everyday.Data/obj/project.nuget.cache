@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Eg/DFtXfzxGwH3u+Y7keXEIfWNB4V7+BZEhAgFLRXMglgXT8mVw6xTlljfQ3IMpMNKpsVDVVmh9B20Y915+j7w==",
+  "dgSpecHash": "7oX/9xU5Kb7sUcG00nuT2GyLn6BRbB09XFjjqpRG5ta4vCeiXj/NiCU9cGQJ2gNOYdqx8RM2zQIzkaFlOzntOw==",
   "success": true,
-  "projectFilePath": "/home/marcin/Repos/EverydayWebService/Everyday.Data/Everyday.Data.csproj",
+  "projectFilePath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Data\\Everyday.Data.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
