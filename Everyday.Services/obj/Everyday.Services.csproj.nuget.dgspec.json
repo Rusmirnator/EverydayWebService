@@ -111,7 +111,11 @@
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj": {
+                "projectPath": "C:\\Users\\ruson\\source\\repos\\EverydayWebService\\Everyday.Core\\Everyday.Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

@@ -1,9 +1,11 @@
-﻿using Everyday.Core.Models;
+﻿using Everyday.Core.Entities;
+using Everyday.Core.Models;
+using System.Threading.Tasks;
 
 namespace Everyday.Services.Interfaces
 {
     public interface IUserService
     {
-        UserDTO GetUser();
+        Task<UserDTO> GetUserAsync(string login, string password);
     }
 }
