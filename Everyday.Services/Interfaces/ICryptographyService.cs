@@ -2,7 +2,9 @@
 {
     public interface ICryptographyService
     {
-        public string Encode(string rawText);
-        public string Decode(string encodedText);
+        public string AESKey { get; set; }
+
+        public string Encrypt(string rawText);
+        public string Decrypt(string encodedText);
     }
 }
