@@ -16,7 +16,7 @@ namespace Everyday.Services.Services
         private readonly IConfiguration config;
         private readonly ILogger logger;
 
-        public string AESKey { get; set; }
+        public string AESKey { get; }
 
         #endregion
 
@@ -32,12 +32,12 @@ namespace Everyday.Services.Services
         #region Public API
         public string Encrypt(string rawText)
         {
-            return EncryptAES(rawText, true, AesType.AES256, ")J@NcQfTjWnZr4u7x!A%D*G-KaPdSgUk");
+            return EncryptAES(rawText, true, AesType.AES256, AESKey);
         }
 
         public string Decrypt(string encryptedText)
         {
-            return DecryptAES(encryptedText, true, AesType.AES256, ")J@NcQfTjWnZr4u7x!A%D*G-KaPdSgUk");
+            return DecryptAES(encryptedText, true, AesType.AES256, AESKey);
         }
         #endregion
 
