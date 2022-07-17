@@ -1,6 +1,5 @@
 ﻿using Everyday.Core.Entities;
 using Everyday.Data.Interfaces;
-using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

@@ -3,8 +3,6 @@ using Everyday.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -14,14 +12,14 @@ namespace Everyday.Services.Services
     {
         #region Fields && Properties
         private readonly IConfiguration config;
-        private readonly ILogger logger;
+        private readonly ILogger<CryptographyService> logger;
 
         public string AESKey { get; }
 
         #endregion
 
         #region CTOR
-        public CryptographyService(IConfiguration config, ILogger logger)
+        public CryptographyService(IConfiguration config, ILogger<CryptographyService> logger)
         {
             this.config = config;
             this.logger = logger;
@@ -100,21 +98,20 @@ namespace Everyday.Services.Services
         {
             string result = "";
 
-            byte[] encryptedbytes = Convert.FromBase64String(rawText);
+            byte[] textbytes = Encoding.UTF8.GetBytes(rawText);
             byte[] keybytes = PrepareAESKey(useHashing, aesType, key);
             byte[] ivbytes = PrepareVector(keybytes, iv);
-
+    
             using (Aes aes = Aes.Create())
             {
+                aes.BlockSize = 128;
+
                 switch (aesType)
                 {
                     case AesType.AES128:
                         {
                             aes.KeySize = 128;
-                            if (string.IsNullOrEmpty(key))
-                            {
-                                aes.Key = keybytes;
-                            }
+                            aes.Key = keybytes;
                         }
                         break;
 
@@ -138,12 +135,13 @@ namespace Everyday.Services.Services
                 aes.Padding = PaddingMode.PKCS7;
                 aes.Mode = CipherMode.CBC;
 
-                ICryptoTransform crypto = aes.CreateDecryptor(aes.Key, aes.IV);
-                byte[] decrypted = crypto.TransformFinalBlock(encryptedbytes, 0, encryptedbytes.Length);
+                ICryptoTransform crypto = aes.CreateEncryptor(aes.Key, aes.IV);
+                byte[] encrypted = crypto.TransformFinalBlock(textbytes, 0, textbytes.Length);
+                crypto.Dispose();
 
-                result = Encoding.UTF8.GetString(decrypted);
+                result = Convert.ToBase64String(encrypted, 0, encrypted.Length);
             }
-
+ 
             ClearTable(keybytes);
             ClearTable(ivbytes);
 

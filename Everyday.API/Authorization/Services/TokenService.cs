@@ -15,19 +15,20 @@ namespace Everyday.API.Authorization.Services
 
         public string BuildToken(string key, string issuer, string audience, UserDTO user)
         {
-            List<Claim> claims = new();
-
-            claims.Add(new Claim(ClaimTypes.Name, user.Login));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()));
+            List<Claim> claims = new()
+            {
+                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+            };
 
             foreach (string role in user.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            JwtSecurityToken tokenDescriptor = new JwtSecurityToken(issuer, audience, claims,
+            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(key));
+            SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            JwtSecurityToken tokenDescriptor = new(issuer, audience, claims,
                 expires: DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
@@ -35,8 +36,9 @@ namespace Everyday.API.Authorization.Services
         public bool ValidateToken(string key, string issuer, string audience, string token)
         {
             byte[] mySecret = Encoding.UTF8.GetBytes(key);
-            SymmetricSecurityKey mySecurityKey = new SymmetricSecurityKey(mySecret);
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SymmetricSecurityKey mySecurityKey = new(mySecret);
+            JwtSecurityTokenHandler tokenHandler = new();
+
             try
             {
                 tokenHandler.ValidateToken(token,

@@ -1,5 +1,4 @@
-﻿using Everyday.Core.Entities;
-using Everyday.Core.Models;
+﻿using Everyday.Core.Models;
 using System.Threading.Tasks;
 
 namespace Everyday.Services.Interfaces

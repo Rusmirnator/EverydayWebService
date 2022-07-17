@@ -2,7 +2,6 @@
 using Everyday.Core.Models;
 using Everyday.Data.Interfaces;
 using Everyday.Services.Interfaces;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

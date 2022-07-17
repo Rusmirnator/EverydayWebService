@@ -33,6 +33,7 @@ namespace Everyday.API
                     .AddDistributedMemoryCache()
                     .AddDbContext<EverydayContext>()
                     .AddScoped<IUserDataProvider, UserDataProvider>()
+                    .AddScoped<ICryptographyService, CryptographyService>()
                     .AddTransient<IUserService, UserService>()
                     .AddTransient<ITokenService, TokenService>();
 
