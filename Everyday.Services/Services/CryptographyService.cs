@@ -1,4 +1,4 @@
-﻿using Everyday.Services.Dictionaries;
+﻿using Everyday.Core.Dictionaries;
 using Everyday.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -23,7 +23,7 @@ namespace Everyday.Services.Services
         {
             this.config = config;
             this.logger = logger;
-            AESKey = this.config["Encryption:AESKey"];
+            AESKey = this.config["Encryption:AESKey"]; 
         }
         #endregion
 
@@ -36,6 +36,25 @@ namespace Everyday.Services.Services
         public string Decrypt(string encryptedText)
         {
             return DecryptAES(encryptedText, true, AesType.AES256, AESKey);
+        }
+
+        /// <summary>
+        /// Tworzenie skrótu SHA256 podanego ciągu znaków
+        /// </summary>
+        /// <param name="text">Ciąg znaków do zaszyfrowania</param>
+        /// <returns></returns>
+        public string GetSHA256Digest(string text)
+        {
+            using SHA256 sha256Hash = SHA256.Create();
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(text));
+
+            StringBuilder builder = new();
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                _ = builder.Append(bytes[i].ToString("x2"));
+            }
+            return builder.ToString();
         }
         #endregion
 
