@@ -35,8 +35,8 @@ namespace Everyday.API.Authorization.Services
         }
         public bool ValidateToken(string key, string issuer, string audience, string token)
         {
-            byte[] mySecret = Encoding.UTF8.GetBytes(key);
-            SymmetricSecurityKey mySecurityKey = new(mySecret);
+            byte[] secret = Encoding.UTF8.GetBytes(key);
+            SymmetricSecurityKey mySecurityKey = new(secret);
             JwtSecurityTokenHandler tokenHandler = new();
 
             try

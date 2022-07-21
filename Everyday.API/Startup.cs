@@ -45,18 +45,15 @@ namespace Everyday.API
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidAudience = Configuration["Jwt:Audience"],
                     ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new
-                    SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes
-                    (Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
         }
@@ -71,15 +68,7 @@ namespace Everyday.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Everyday.API v1"));
             }
 
-            app.UseSession();
-            app.Use(async (context, next) =>
-            {
-                if (context.Session.TryGetValue("Token", out byte[] encodedToken))
-                {
-                    context.Request.Headers.Add("Authorization", "Bearer " + Encoding.UTF8.GetString(encodedToken));
-                }
-                await next();
-            });
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 

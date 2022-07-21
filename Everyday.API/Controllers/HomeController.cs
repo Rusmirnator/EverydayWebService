@@ -36,30 +36,34 @@ namespace Everyday.API.Controllers
 
             UserDTO validUser = await userService.GetUserAsync(login, password);
 
-            if (validUser != null)
+            if (validUser is not null)
             {
                 string generatedToken = tokenService
                     .BuildToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
 
-                if (generatedToken != null)
+                if (generatedToken != null
+                    && tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
                 {
-                    HttpContext.Session.Set("Token", Encoding.UTF8.GetBytes(generatedToken));
-
-                    if (!tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
-                    {
-                        return StatusCode(400, "Provided token is invalid.");
-                    }
                     return Ok(generatedToken);
                 }
-                else
-                {
-                    return StatusCode(500, "Internal server error!");
-                }
+                return StatusCode(500, "Created JWT is invalid!");
             }
-            else
+            return StatusCode(400, "Provided login or password is invalid!");
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("AuthenticationTest")]
+        public async Task<IActionResult> AuthenticationTest([FromQuery] int? value)
+        {
+            if (value is null)
             {
-                return StatusCode(400, "Provided login or password is invalid!");
+                return StatusCode(400, "Provided value is null");
             }
+
+            await Task.Delay(100);
+
+            return Ok();
         }
     }
 }
