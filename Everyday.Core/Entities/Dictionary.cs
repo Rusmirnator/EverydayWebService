@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 namespace Everyday.Core.Entities
 {
-    public partial class Role
+    public partial class Dictionary
     {
         public int Id { get; set; }
-        public DateTime CreateDt { get; set; }
-        public string Name { get; set; }
+        public int CategoryId { get; set; }
         public string Description { get; set; }
+        public int Value { get; set; }
+
+        public virtual DictionaryCategory Category { get; set; }
     }
 }
