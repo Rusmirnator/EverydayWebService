@@ -33,9 +33,11 @@ namespace Everyday.API
                     .AddDistributedMemoryCache()
                     .AddDbContext<EverydayContext>()
                     .AddScoped<IUserDataProvider, UserDataProvider>()
+                    .AddScoped<IItemDataProvider, ItemDataProvider>()
                     .AddScoped<ICryptographyService, CryptographyService>()
-                    .AddTransient<IUserService, UserService>()
-                    .AddTransient<ITokenService, TokenService>();
+                    .AddScoped<IUserService, UserService>()
+                    .AddScoped<IItemService, ItemService>()
+                    .AddScoped<ITokenService, TokenService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

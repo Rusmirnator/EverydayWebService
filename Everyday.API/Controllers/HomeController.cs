@@ -4,7 +4,6 @@ using Everyday.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Everyday.API.Controllers
@@ -27,7 +26,7 @@ namespace Everyday.API.Controllers
         [AllowAnonymous]
         [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> LoginAsync(string login, string password)
+        public async Task<IActionResult> LoginAsync([FromQuery] string login, [FromQuery] string password)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
@@ -49,21 +48,6 @@ namespace Everyday.API.Controllers
                 return StatusCode(500, "Created JWT is invalid!");
             }
             return StatusCode(400, "Provided login or password is invalid!");
-        }
-
-        [Authorize]
-        [HttpGet]
-        [Route("AuthenticationTest")]
-        public async Task<IActionResult> AuthenticationTest([FromQuery] int? value)
-        {
-            if (value is null)
-            {
-                return StatusCode(400, "Provided value is null");
-            }
-
-            await Task.Delay(100);
-
-            return Ok();
         }
     }
 }
