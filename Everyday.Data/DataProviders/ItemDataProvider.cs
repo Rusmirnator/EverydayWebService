@@ -45,8 +45,8 @@ namespace Everyday.Data.DataProviders
         {
             Item createdItem = new();
             ItemDefinition createdDefinition = new();
-            Container createdContainer = new();
-            Manufacturer createdManufacturer = new();
+            Container createdContainer;
+            Manufacturer createdManufacturer;
 
             createdDefinition.DimensionsMeasureUnitId = newItem.ItemDefinition.DimensionsMeasureUnitId;
             createdDefinition.WeightMeasureUnitId = newItem.ItemDefinition.WeightMeasureUnitId;
@@ -65,7 +65,10 @@ namespace Everyday.Data.DataProviders
 
             if (newItem.Container is not null)
             {
-                createdContainer.Id = newItem.Container.Id;
+                createdContainer = await dbContext.Containers.FirstOrDefaultAsync(e => e.Id == newItem.Container.Id);
+
+                createdContainer ??= new();
+
                 createdContainer.TrashTypeId = newItem.Container.TrashTypeId;
                 createdContainer.IsReusable = newItem.Container.IsReusable;
                 createdItem.Containers.Add(createdContainer);
@@ -73,7 +76,10 @@ namespace Everyday.Data.DataProviders
 
             if (newItem.Manufacturer is not null)
             {
-                createdManufacturer.Id = newItem.Manufacturer.Id;
+                createdManufacturer = await dbContext.Manufacturers.FirstOrDefaultAsync(e => e.Id == newItem.Manufacturer.Id);
+
+                createdManufacturer ??= new();
+
                 createdManufacturer.Name = newItem.Manufacturer.Name;
                 createdManufacturer.Description = newItem.Manufacturer.Description;
                 createdItem.Manufacturer = createdManufacturer;
@@ -119,10 +125,7 @@ namespace Everyday.Data.DataProviders
 
             if (updatedItem.Container is not null)
             {
-                if(existingContainer is null)
-                {
-                    existingContainer = new();
-                }
+                existingContainer ??= new();
 
                 existingContainer.Id = updatedItem.Container.Id;
                 existingContainer.TrashTypeId = updatedItem.Container.TrashTypeId;
@@ -131,10 +134,7 @@ namespace Everyday.Data.DataProviders
 
             if (updatedItem.Manufacturer is not null)
             {
-                if(existingManufacturer is null)
-                {
-                    existingManufacturer = new();
-                }
+                existingManufacturer ??= new();
 
                 existingManufacturer.Id = updatedItem.Manufacturer.Id;
                 existingManufacturer.Name = updatedItem.Manufacturer.Name;
