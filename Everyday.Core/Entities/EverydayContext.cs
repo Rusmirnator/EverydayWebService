@@ -32,8 +32,7 @@ namespace Everyday.Core.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Everyday;Trusted_Connection=True;");
-                optionsBuilder.UseSqlServer("Server=035bc13f-a2a1-4683-b770-aeea011f3641.sqlserver.sequelizer.com;Database=db035bc13fa2a14683b770aeea011f3641;User ID=tiumeezohuuqbuzz;Password=c8G7xkBPSZ7QBi6iR6eFUcVBn5ZTeDsvQzgLsF7KZhStnoghZM6gSxjakeTAtRJo;");
+                optionsBuilder.UseNpgsql();
             }
         }
 
