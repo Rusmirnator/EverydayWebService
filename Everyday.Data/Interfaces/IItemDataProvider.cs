@@ -1,4 +1,4 @@
-﻿using Everyday.Core.Entities;
+﻿using Everyday.Core.EntitiesPg;
 using Everyday.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

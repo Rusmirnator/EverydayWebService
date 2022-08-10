@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -6,13 +7,16 @@ namespace Everyday.Core.Entities
 {
     public partial class EverydayContext : DbContext
     {
+        private readonly IConfiguration configuration;
+
         public EverydayContext()
         {
         }
 
-        public EverydayContext(DbContextOptions<EverydayContext> options)
+        public EverydayContext(DbContextOptions<EverydayContext> options, IConfiguration configuration)
             : base(options)
         {
+            this.configuration = configuration;
         }
 
         public virtual DbSet<Consumable> Consumables { get; set; }
@@ -32,7 +36,7 @@ namespace Everyday.Core.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("EverydayMSSQL"));
             }
         }
 

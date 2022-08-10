@@ -1,4 +1,4 @@
-﻿using Everyday.Core.Entities;
+﻿using Everyday.Core.EntitiesPg;
 
 namespace Everyday.Core.Models
 {

@@ -1,4 +1,4 @@
-﻿using Everyday.Core.Entities;
+﻿using Everyday.Core.EntitiesPg;
 using System.Collections.Generic;
 using System.Linq;
 

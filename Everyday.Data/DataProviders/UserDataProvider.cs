@@ -1,4 +1,4 @@
-﻿using Everyday.Core.Entities;
+﻿using Everyday.Core.EntitiesPg;
 using Everyday.Data.Interfaces;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
