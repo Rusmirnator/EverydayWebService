@@ -1,5 +1,6 @@
 using Everyday.API.Authorization.Interfaces;
 using Everyday.API.Authorization.Services;
+using Everyday.API.Middleware;
 using Everyday.Core.EntitiesPg;
 using Everyday.Data.DataProviders;
 using Everyday.Data.Interfaces;
@@ -69,6 +70,8 @@ namespace Everyday.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Everyday.API v1"));
             }
+
+            app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthentication();
 

@@ -39,7 +39,7 @@ namespace Everyday.Core.EntitiesPg
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseNpgsql(configuration.GetConnectionString("EverydayPG"));
+                    .UseNpgsql(string.Concat($"Database={Environment.GetEnvironmentVariable("DATABASE_URL")};", configuration.GetConnectionString("EverydayPG")));
             }
         }
 

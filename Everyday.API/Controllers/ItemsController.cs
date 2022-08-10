@@ -59,7 +59,7 @@ namespace Everyday.API.Controllers
 
             if (!await itemService.CreateItemAsync(newItem))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             return Ok("Item has been created successfully!");
@@ -88,7 +88,7 @@ namespace Everyday.API.Controllers
         {
             if (!await itemService.DeleteItemAsync(id))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             return Ok("Item has been deleted successfully!");
