@@ -43,49 +43,17 @@ namespace Everyday.Data.DataProviders
         #region CREATE
         public async Task<bool> AddItemAsync(ItemDTO newItem)
         {
-            Item createdItem = new();
-            ItemDefinition createdDefinition = new();
-            Container createdContainer;
-            Manufacturer createdManufacturer;
+            Item item = await dbContext.Items
+                .Include(e => e.ItemDefinition)
+                .Include(e => e.Manufacturer)
+                    .FirstOrDefaultAsync(e => e.Code.Equals(newItem.Code));
 
-            createdDefinition.DimensionsMeasureUnitId = newItem.ItemDefinition.DimensionsMeasureUnitId;
-            createdDefinition.WeightMeasureUnitId = newItem.ItemDefinition.WeightMeasureUnitId;
-            createdDefinition.ItemCategoryTypeId = newItem.ItemDefinition.ItemCategoryTypeId;
-
-            createdItem.Name = newItem.Name;
-            createdItem.Description = newItem.Description;
-            createdItem.Code = newItem.Code;
-            createdItem.Width = newItem.Width;
-            createdItem.Height = newItem.Height;
-            createdItem.Depth = newItem.Depth;
-            createdItem.Weight = newItem.Weight;
-            createdItem.Price = newItem.Price;
-
-            createdItem.ItemDefinition = createdDefinition;
-
-            if (newItem.Container is not null)
+            if (item is null)
             {
-                createdContainer = await dbContext.Containers.FirstOrDefaultAsync(e => e.Id == newItem.Container.Id);
-
-                createdContainer ??= new();
-
-                createdContainer.TrashTypeId = newItem.Container.TrashTypeId;
-                createdContainer.IsReusable = newItem.Container.IsReusable;
-                createdItem.Containers.Add(createdContainer);
+                item = newItem.ToEntity();
             }
 
-            if (newItem.Manufacturer is not null)
-            {
-                createdManufacturer = await dbContext.Manufacturers.FirstOrDefaultAsync(e => e.Id == newItem.Manufacturer.Id);
-
-                createdManufacturer ??= new();
-
-                createdManufacturer.Name = newItem.Manufacturer.Name;
-                createdManufacturer.Description = newItem.Manufacturer.Description;
-                createdItem.Manufacturer = createdManufacturer;
-            }
-
-            _ = await dbContext.Items.AddAsync(createdItem);
+            _ = dbContext.Add(item);
 
             return await SaveChangesAsync();
         }
@@ -94,52 +62,19 @@ namespace Everyday.Data.DataProviders
         #region UPDATE
         public async Task<bool> UpdateItemAsync(ItemDTO updatedItem)
         {
-            Item existingItem = await GetItemByIdAsync(updatedItem.Id);
+            Item item = await dbContext.Items
+                .Include(e => e.ItemDefinition)
+                .Include(e => e.Manufacturer)
+                    .FirstOrDefaultAsync(e => e.Code.Equals(updatedItem.Code));
 
-            if (existingItem is null)
+            if (item is null)
             {
-                return false;
+                return await Task.FromResult(false);
             }
 
-            ItemDefinition existingDefinition = existingItem.ItemDefinition;
-            Container existingContainer = await dbContext.Containers
-                                                    .FirstOrDefaultAsync(e => e.ItemId == existingItem.Id);
+            item = updatedItem.ToEntity();
 
-            Manufacturer existingManufacturer = await dbContext.Manufacturers
-                                                        .FirstOrDefaultAsync(e => e.Items.Contains(existingItem));
-
-            existingDefinition.DimensionsMeasureUnitId = updatedItem.ItemDefinition.DimensionsMeasureUnitId;
-            existingDefinition.WeightMeasureUnitId = updatedItem.ItemDefinition.WeightMeasureUnitId;
-            existingDefinition.ItemCategoryTypeId = updatedItem.ItemDefinition.ItemCategoryTypeId;
-
-            existingItem.Name = updatedItem.Name;
-            existingItem.Description = updatedItem.Description;
-            existingItem.Code = updatedItem.Code;
-            existingItem.Width = updatedItem.Width;
-            existingItem.Height = updatedItem.Height;
-            existingItem.Depth = updatedItem.Depth;
-            existingItem.Weight = updatedItem.Weight;
-            existingItem.Price = updatedItem.Price;
-
-            existingItem.ItemDefinition = existingDefinition;
-
-            if (updatedItem.Container is not null)
-            {
-                existingContainer ??= new();
-
-                existingContainer.Id = updatedItem.Container.Id;
-                existingContainer.TrashTypeId = updatedItem.Container.TrashTypeId;
-                existingContainer.IsReusable = updatedItem.Container.IsReusable;
-            }
-
-            if (updatedItem.Manufacturer is not null)
-            {
-                existingManufacturer ??= new();
-
-                existingManufacturer.Id = updatedItem.Manufacturer.Id;
-                existingManufacturer.Name = updatedItem.Manufacturer.Name;
-                existingManufacturer.Description = updatedItem.Manufacturer.Description;
-            }
+            _ = dbContext.Update(item);
 
             return await SaveChangesAsync();
         }

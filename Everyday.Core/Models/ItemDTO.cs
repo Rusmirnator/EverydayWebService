@@ -1,5 +1,6 @@
 ﻿using Everyday.Core.EntitiesPg;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Everyday.Core.Models
@@ -8,7 +9,9 @@ namespace Everyday.Core.Models
     {
         #region Fields & Properties
         public int Id { get; set; }
+        [Required]
         public string Code { get; set; }
+        [Required]
         public string Name { get; set; }
         public string Description { get; set; }
         public double? Width { get; set; }
@@ -17,7 +20,6 @@ namespace Everyday.Core.Models
         public double? Weight { get; set; }
         public double? Price { get; set; }
         public ItemDefinitionDTO ItemDefinition { get; set; }
-        public ContainerDTO Container { get; set; }
         public ManufacturerDTO Manufacturer { get; set; }
         #endregion
 
@@ -39,22 +41,9 @@ namespace Everyday.Core.Models
             Weight = entry.Weight;
             Price = entry.Price;
             ItemDefinition = new ItemDefinitionDTO(entry.ItemDefinition);
-            Container = InitializeContainer(entry.Containers);
             Manufacturer = InitializeManufacturer(entry.Manufacturer);
         }
         #endregion
-
-        private static ContainerDTO InitializeContainer(ICollection<Container> containers)
-        {
-            Container entry = containers.FirstOrDefault();
-
-            if (entry is null)
-            {
-                return null;
-            }
-
-            return new ContainerDTO(entry);
-        }
 
         private static ManufacturerDTO InitializeManufacturer(Manufacturer entry)
         {
