@@ -9,16 +9,14 @@ namespace Everyday.Core.EntitiesPg
 {
     public partial class EverydayContext : DbContext
     {
-        private readonly IConfiguration configuration;
-
         public EverydayContext()
         {
         }
 
-        public EverydayContext(DbContextOptions<EverydayContext> options, IConfiguration configuration)
+        public EverydayContext(DbContextOptions<EverydayContext> options)
             : base(options)
         {
-            this.configuration = configuration;
+
         }
 
         public virtual DbSet<Consumable> Consumables { get; set; }
@@ -39,7 +37,7 @@ namespace Everyday.Core.EntitiesPg
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseNpgsql(string.Concat($"Database={Environment.GetEnvironmentVariable("DATABASE_URL")};", configuration.GetConnectionString("EverydayPG")));
+                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")));
             }
         }
 
@@ -163,5 +161,14 @@ namespace Everyday.Core.EntitiesPg
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public static string BuildConnectionString(string databaseUrl)
+        {
+            if (Uri.TryCreate(databaseUrl, UriKind.Absolute, out Uri url))
+            {
+                return $"Host={url.Host};Username={url.UserInfo.Split(':')[0]};Password={url.UserInfo.Split(':')[1]};Database={url.LocalPath[1..]};Port={url.Port};sslmode=Require;Trust Server Certificate=true";
+            }
+            return string.Empty;
+        }
     }
 }

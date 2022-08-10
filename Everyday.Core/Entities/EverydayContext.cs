@@ -7,16 +7,14 @@ namespace Everyday.Core.Entities
 {
     public partial class EverydayContext : DbContext
     {
-        private readonly IConfiguration configuration;
 
         public EverydayContext()
         {
         }
 
-        public EverydayContext(DbContextOptions<EverydayContext> options, IConfiguration configuration)
+        public EverydayContext(DbContextOptions<EverydayContext> options)
             : base(options)
         {
-            this.configuration = configuration;
         }
 
         public virtual DbSet<Consumable> Consumables { get; set; }
@@ -36,7 +34,7 @@ namespace Everyday.Core.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("EverydayMSSQL"));
+                optionsBuilder.UseSqlServer();
             }
         }
 
