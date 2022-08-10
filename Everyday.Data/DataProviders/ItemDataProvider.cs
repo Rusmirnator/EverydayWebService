@@ -74,7 +74,7 @@ namespace Everyday.Data.DataProviders
 
             item = updatedItem.ToEntity();
 
-            _ = dbContext.Update(item);
+            dbContext.Entry(item).State = EntityState.Modified;
 
             return await SaveChangesAsync();
         }
