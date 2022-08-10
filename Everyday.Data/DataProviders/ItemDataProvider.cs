@@ -72,7 +72,9 @@ namespace Everyday.Data.DataProviders
                 return await Task.FromResult(false);
             }
 
-            item = updatedItem.ToEntity();
+            item.UpdateFrom(updatedItem);
+
+            _ = dbContext.Update(item);
 
             return await SaveChangesAsync();
         }

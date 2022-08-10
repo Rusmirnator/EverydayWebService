@@ -44,5 +44,42 @@ namespace Everyday.Data
                 Description = dto.Description
             };
         }
+
+        public static Manufacturer UpdateFrom(this Manufacturer source, ManufacturerDTO dto)
+        {
+            source.Id = dto.Id;
+            source.Name = dto.Name;
+            source.Description = dto.Description;
+
+            return source;
+        }
+
+        public static ItemDefinition UpdateFrom(this ItemDefinition source, ItemDefinitionDTO dto)
+        {
+            source.Id = dto.Id;
+            source.DimensionsMeasureUnitId = dto.DimensionsMeasureUnitId;
+            source.WeightMeasureUnitId = dto.WeightMeasureUnitId;
+            source.ItemCategoryTypeId = dto.ItemCategoryTypeId;
+            source.ContainerId = dto.ContainerId;
+
+            return source;
+        }
+
+        public static Item UpdateFrom(this Item source, ItemDTO dto)
+        {
+            source.Id = dto.Id;
+            source.Code = dto.Code;
+            source.Name = dto.Name;
+            source.Description = dto.Description;
+            source.Width = dto.Width;
+            source.Height = dto.Height;
+            source.Depth = dto.Depth;
+            source.Weight = dto.Weight;
+            source.Price = dto.Price;
+            source.ItemDefinition.UpdateFrom(dto.ItemDefinition);
+            source.Manufacturer.UpdateFrom(dto.Manufacturer);
+
+            return source;
+        }
     }
 }
