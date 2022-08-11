@@ -48,10 +48,7 @@ namespace Everyday.Data.DataProviders
                 .Include(e => e.Manufacturer)
                     .FirstOrDefaultAsync(e => e.Code.Equals(newItem.Code));
 
-            if (item is null)
-            {
-                item = newItem.ToEntity();
-            }
+            item ??= newItem.ToEntity();
 
             _ = dbContext.Add(item);
 

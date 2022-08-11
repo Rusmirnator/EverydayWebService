@@ -11,9 +11,9 @@ namespace Everyday.Data.Interfaces
     public interface IConsumableDataProvider
     {
         public Task<IEnumerable<Consumable>> GetConsumablesAsync();
-        public Task<Item> GetConsumableByItemIdAsync(int itemId);
-        public Task<bool> AddConsumableAsync(ConsumableDTO newItem);
-        public Task<bool> UpdateConsumableAsync(ConsumableDTO updatedItem);
+        public Task<Consumable> GetConsumableByItemIdAsync(int itemId);
+        public Task<bool> AddConsumableAsync(ConsumableDTO newConsumable);
+        public Task<bool> UpdateConsumableAsync(ConsumableDTO updatedConsumable);
         public Task<bool> DeleteConsumableAsync(int id);
     }
 }

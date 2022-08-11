@@ -1,4 +1,7 @@
-﻿using Everyday.Core.Models;
+﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Models;
+using Everyday.Core.Shared;
+using Everyday.Data.DataProviders;
 using Everyday.Data.Interfaces;
 using Everyday.Services.Interfaces;
 using System;
@@ -23,35 +26,52 @@ namespace Everyday.Services.Services
         #endregion
 
         #region READ
-        public Task<ConsumableDTO> GetConsumableByItemIdAsync(int itemId)
+        public async Task<ConsumableDTO> GetConsumableByItemIdAsync(int itemId)
         {
-            throw new NotImplementedException();
+            Consumable entry = await dataProvider.GetConsumableByItemIdAsync(itemId);
+
+            if (entry is null)
+            {
+                return null;
+            }
+            return new ConsumableDTO(entry);
         }
 
-        public Task<IEnumerable<ConsumableDTO>> GetConsumablesAsync()
+        public async Task<IEnumerable<ConsumableDTO>> GetConsumablesAsync()
         {
-            throw new NotImplementedException();
+            IEnumerable<Consumable> entries = await dataProvider.GetConsumablesAsync();
+
+            if (entries is null)
+            {
+                return Enumerable.Empty<ConsumableDTO>();
+            }
+
+            List<ConsumableDTO> result = new();
+
+            _ = await entries.MapAsync((e) => result.Add(new ConsumableDTO(e)));
+
+            return await Task.FromResult(result);
         }
         #endregion
 
         #region CREATE
-        public Task<bool> CreateConsumableAsync(ConsumableDTO newItem)
+        public async Task<bool> CreateConsumableAsync(ConsumableDTO newConsumable)
         {
-            throw new NotImplementedException();
+            return await dataProvider.AddConsumableAsync(newConsumable);
         }
         #endregion
 
         #region UPDATE
-        public Task<bool> UpdateConsumableAsync(ConsumableDTO updatedItem)
+        public async Task<bool> UpdateConsumableAsync(ConsumableDTO updatedConsumable)
         {
-            throw new NotImplementedException();
+            return await dataProvider.UpdateConsumableAsync(updatedConsumable);
         }
         #endregion
 
         #region DELETE
-        public Task<bool> DeleteConsumableAsync(int id)
+        public async Task<bool> DeleteConsumableAsync(int id)
         {
-            throw new NotImplementedException();
+            return await dataProvider.DeleteConsumableAsync(id);
         }
         #endregion
     }

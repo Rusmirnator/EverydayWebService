@@ -8,8 +8,8 @@ namespace Everyday.Services.Interfaces
     {
         public Task<IEnumerable<ConsumableDTO>> GetConsumablesAsync();
         public Task<ConsumableDTO> GetConsumableByItemIdAsync(int itemId);
-        public Task<bool> CreateConsumableAsync(ConsumableDTO newItem);
-        public Task<bool> UpdateConsumableAsync(ConsumableDTO updatedItem);
+        public Task<bool> CreateConsumableAsync(ConsumableDTO newConsumable);
+        public Task<bool> UpdateConsumableAsync(ConsumableDTO updatedConsumable);
         public Task<bool> DeleteConsumableAsync(int id);
     }
 }
