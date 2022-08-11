@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Everyday.Services\Everyday.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Base\" />
+  </ItemGroup>
+
 </Project>

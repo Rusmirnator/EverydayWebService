@@ -35,9 +35,11 @@ namespace Everyday.API
                     .AddDbContext<EverydayContext>()
                     .AddScoped<IUserDataProvider, UserDataProvider>()
                     .AddScoped<IItemDataProvider, ItemDataProvider>()
+                    .AddScoped<IConsumableDataProvider, ConsumableDataProvider>()
                     .AddScoped<ICryptographyService, CryptographyService>()
                     .AddScoped<IUserService, UserService>()
                     .AddScoped<IItemService, ItemService>()
+                    .AddScoped<IConsumableService, ConsumableService>()
                     .AddScoped<ITokenService, TokenService>();
 
             services.AddControllers();
