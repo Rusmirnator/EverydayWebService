@@ -84,7 +84,7 @@ namespace Everyday.API.Controllers
 
         [HttpDelete]
         [Route("{id}/item")]
-        public async Task<IActionResult> UpdateItemAsync([FromRoute] int id)
+        public async Task<IActionResult> DeleteItemAsync([FromRoute] int id)
         {
             if (!await itemService.DeleteItemAsync(id))
             {
