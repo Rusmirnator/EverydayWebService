@@ -4,6 +4,7 @@ using Everyday.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Everyday.Data.DataProviders
@@ -43,13 +44,15 @@ namespace Everyday.Data.DataProviders
             Consumable consumable = await dbContext.Consumables
                                             .FirstOrDefaultAsync(e => e.Id == newConsumable.Id);
 
-            Item owner = await dbContext.Items.FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId);
+            Item owner = await dbContext.Items
+                                .Include(e => e.Consumables)
+                                    .FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId);
 
             consumable ??= newConsumable.ToEntity();
 
-            if (owner is null)
+            if (owner is null || owner.Consumables.Any())
             {
-                return false;
+                return await Task.FromResult(false);
             }
 
             consumable.Item = owner;
