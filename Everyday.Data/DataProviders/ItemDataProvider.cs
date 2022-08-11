@@ -72,9 +72,9 @@ namespace Everyday.Data.DataProviders
                 return await Task.FromResult(false);
             }
 
-            item = updatedItem.ToEntity();
+            item.ToEntity(updatedItem);
 
-            dbContext.Entry(item).State = EntityState.Modified;
+            _ = dbContext.Update(item);
 
             return await SaveChangesAsync();
         }
