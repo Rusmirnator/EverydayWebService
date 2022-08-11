@@ -5,6 +5,11 @@ namespace Everyday.Data
 {
     public static class MappingExtensions
     {
+        /// <summary>
+        /// Creates new instance of entity from calling data transfer object.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public static Item ToEntity(this ItemDTO dto)
         {
             return new Item
@@ -23,6 +28,11 @@ namespace Everyday.Data
             };
         }
 
+        /// <summary>
+        /// Creates new instance of entity from calling data transfer object.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public static ItemDefinition ToEntity(this ItemDefinitionDTO dto)
         {
             return new ItemDefinition
@@ -35,6 +45,11 @@ namespace Everyday.Data
             };
         }
 
+        /// <summary>
+        /// Creates new instance of entity from calling data transfer object.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         public static Manufacturer ToEntity(this ManufacturerDTO dto)
         {
             return new Manufacturer
@@ -45,7 +60,33 @@ namespace Everyday.Data
             };
         }
 
-        public static Manufacturer UpdateFrom(this Manufacturer source, ManufacturerDTO dto)
+        /// <summary>
+        /// Creates new instance of entity from calling data transfer object.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public static Consumable ToEntity(this ConsumableDTO dto)
+        {
+            return new Consumable
+            {
+                Id = dto.Id,
+                Protein = dto.Protein,
+                Carbohydrates = dto.Carbohydrates,
+                Sugars = dto.Sugars,
+                Fat = dto.Fat,
+                SaturatedFat = dto.SaturatedFat,
+                Fiber = dto.Fiber,
+                Salt = dto.Salt
+            };
+        }
+
+        /// <summary>
+        /// Updates calling entity using passed data transfer object.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public static Manufacturer ToEntity(this Manufacturer source, ManufacturerDTO dto)
         {
             source.Id = dto.Id;
             source.Name = dto.Name;
@@ -54,7 +95,13 @@ namespace Everyday.Data
             return source;
         }
 
-        public static ItemDefinition UpdateFrom(this ItemDefinition source, ItemDefinitionDTO dto)
+        /// <summary>
+        /// Updates calling entity using passed data transfer object.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public static ItemDefinition ToEntity(this ItemDefinition source, ItemDefinitionDTO dto)
         {
             source.Id = dto.Id;
             source.DimensionsMeasureUnitId = dto.DimensionsMeasureUnitId;
@@ -65,7 +112,13 @@ namespace Everyday.Data
             return source;
         }
 
-        public static Item UpdateFrom(this Item source, ItemDTO dto)
+        /// <summary>
+        /// Updates calling entity using passed data transfer object.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public static Item ToEntity(this Item source, ItemDTO dto)
         {
             source.Id = dto.Id;
             source.Code = dto.Code;
@@ -76,8 +129,28 @@ namespace Everyday.Data
             source.Depth = dto.Depth;
             source.Weight = dto.Weight;
             source.Price = dto.Price;
-            source.ItemDefinition.UpdateFrom(dto.ItemDefinition);
-            source.Manufacturer.UpdateFrom(dto.Manufacturer);
+            source.ItemDefinition.ToEntity(dto.ItemDefinition);
+            source.Manufacturer.ToEntity(dto.Manufacturer);
+
+            return source;
+        }
+        
+        /// <summary>
+        /// Updates calling entity using passed data transfer object.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public static Consumable ToEntity(this Consumable source, ConsumableDTO dto)
+        {
+            source.Id = dto.Id;
+            source.Protein = dto.Protein;
+            source.Carbohydrates = dto.Carbohydrates;
+            source.Sugars = dto.Sugars;
+            source.Fat = dto.Fat;
+            source.SaturatedFat = dto.SaturatedFat;
+            source.Fiber = dto.Fiber;
+            source.Salt = dto.Salt;
 
             return source;
         }
