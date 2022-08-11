@@ -77,6 +77,7 @@ namespace Everyday.Data
                 SaturatedFat = dto.SaturatedFat,
                 Fiber = dto.Fiber,
                 Salt = dto.Salt,
+                Energy = dto.Energy
             };
         }
 
@@ -151,6 +152,7 @@ namespace Everyday.Data
             source.SaturatedFat = dto.SaturatedFat;
             source.Fiber = dto.Fiber;
             source.Salt = dto.Salt;
+            source.Energy = dto.Energy;
 
             return source;
         }

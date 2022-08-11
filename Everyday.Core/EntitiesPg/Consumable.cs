@@ -30,6 +30,8 @@ namespace Everyday.Core.EntitiesPg
         public double? Fiber { get; set; }
         [Column("salt")]
         public double? Salt { get; set; }
+        [Column("energy")]
+        public double? Energy { get; set; }
         [Column("itemid")]
         public int ItemId { get; set; }
 
