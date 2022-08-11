@@ -15,6 +15,7 @@ namespace Everyday.Core.Models
         public double? SaturatedFat { get; set; }
         public double? Fiber { get; set; }
         public double? Salt { get; set; }
+        public int? ItemId { get; set; }
         #endregion
 
         #region CTOR
@@ -32,6 +33,7 @@ namespace Everyday.Core.Models
             SaturatedFat = entry.SaturatedFat;
             Fiber = entry.Fiber;
             Salt = entry.Salt;
+            ItemId = entry.ItemId;
         }
         #endregion
     }

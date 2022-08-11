@@ -43,8 +43,16 @@ namespace Everyday.Data.DataProviders
             Consumable consumable = await dbContext.Consumables
                                             .FirstOrDefaultAsync(e => e.Id == newConsumable.Id);
 
+            Item owner = await dbContext.Items.FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId);
+
             consumable ??= newConsumable.ToEntity();
 
+            if (owner is null)
+            {
+                return false;
+            }
+
+            consumable.Item = owner;
             _ = dbContext.Add(consumable);
 
             return await SaveChangesAsync();

@@ -76,7 +76,7 @@ namespace Everyday.Data
                 Fat = dto.Fat,
                 SaturatedFat = dto.SaturatedFat,
                 Fiber = dto.Fiber,
-                Salt = dto.Salt
+                Salt = dto.Salt,
             };
         }
 
