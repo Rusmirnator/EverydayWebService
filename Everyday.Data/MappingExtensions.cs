@@ -89,7 +89,6 @@ namespace Everyday.Data
         /// <returns></returns>
         public static Manufacturer ToEntity(this Manufacturer source, ManufacturerDTO dto)
         {
-            source.Id = dto.Id;
             source.Name = dto.Name;
             source.Description = dto.Description;
 
@@ -104,7 +103,6 @@ namespace Everyday.Data
         /// <returns></returns>
         public static ItemDefinition ToEntity(this ItemDefinition source, ItemDefinitionDTO dto)
         {
-            source.Id = dto.Id;
             source.DimensionsMeasureUnitId = dto.DimensionsMeasureUnitId;
             source.WeightMeasureUnitId = dto.WeightMeasureUnitId;
             source.ItemCategoryTypeId = dto.ItemCategoryTypeId;
@@ -121,7 +119,6 @@ namespace Everyday.Data
         /// <returns></returns>
         public static Item ToEntity(this Item source, ItemDTO dto)
         {
-            source.Id = dto.Id;
             source.Code = dto.Code;
             source.Name = dto.Name;
             source.Description = dto.Description;
@@ -144,7 +141,6 @@ namespace Everyday.Data
         /// <returns></returns>
         public static Consumable ToEntity(this Consumable source, ConsumableDTO dto)
         {
-            source.Id = dto.Id;
             source.Protein = dto.Protein;
             source.Carbohydrates = dto.Carbohydrates;
             source.Sugars = dto.Sugars;
