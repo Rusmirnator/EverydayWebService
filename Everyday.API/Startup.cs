@@ -1,8 +1,8 @@
 using Everyday.API.Authorization.Interfaces;
 using Everyday.API.Authorization.Services;
 using Everyday.API.Middleware;
-using Everyday.Core.EntitiesPg;
 using Everyday.Data.DataProviders;
+using Everyday.Data.DataSource;
 using Everyday.Data.Interfaces;
 using Everyday.Services.Interfaces;
 using Everyday.Services.Services;

@@ -1,11 +1,10 @@
 ﻿using System;
+using Everyday.Core.EntitiesPg;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
-namespace Everyday.Core.EntitiesPg
+namespace Everyday.Data.DataSource
 {
     public partial class EverydayContext : DbContext
     {
