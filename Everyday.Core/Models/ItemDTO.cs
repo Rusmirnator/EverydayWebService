@@ -1,11 +1,10 @@
 ﻿using Everyday.Core.EntitiesPg;
-using System.Collections.Generic;
+using Everyday.Core.Shared;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Everyday.Core.Models
 {
-    public class ItemDTO
+    public class ItemDTO : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -24,12 +23,12 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ItemDTO()
+        public ItemDTO() : base()
         {
 
         }
 
-        public ItemDTO(Item entry)
+        public ItemDTO(Item entry) : base()
         {
             Id = entry.Id;
             Code = entry.Code;

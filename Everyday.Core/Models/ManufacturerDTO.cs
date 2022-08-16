@@ -1,8 +1,9 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ManufacturerDTO
+    public class ManufacturerDTO : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -11,12 +12,12 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ManufacturerDTO()
+        public ManufacturerDTO() : base()
         {
-
+            Result = this;
         }
 
-        public ManufacturerDTO(Manufacturer entry)
+        public ManufacturerDTO(Manufacturer entry) : base()
         {
             Id = entry.Id;
             Name = entry.Name;

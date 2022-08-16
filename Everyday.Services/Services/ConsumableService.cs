@@ -1,13 +1,10 @@
 ﻿using Everyday.Core.EntitiesPg;
 using Everyday.Core.Models;
 using Everyday.Core.Shared;
-using Everyday.Data.DataProviders;
 using Everyday.Data.Interfaces;
 using Everyday.Services.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Everyday.Services.Services

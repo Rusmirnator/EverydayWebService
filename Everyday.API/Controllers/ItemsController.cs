@@ -1,4 +1,5 @@
-﻿using Everyday.Core.Models;
+﻿using Everyday.Core.Interfaces;
+using Everyday.Core.Models;
 using Everyday.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,20 @@ namespace Everyday.API.Controllers
         }
 
         [HttpGet]
+        [Route("{code}/item")]
+        public async Task<IActionResult> GetItemByIdAsync([FromRoute] string code)
+        {
+            ItemDTO item = await itemService.GetItemByCodeAsync(code);
+
+            if (item is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(item);
+        }
+
+        [HttpGet]
         [Route("items")]
         public async Task<IActionResult> GetItemsAsync()
         {
@@ -57,12 +72,14 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await itemService.CreateItemAsync(newItem))
+            IConveyOperationResult res = await itemService.CreateItemAsync(newItem);
+
+            if (res.StatusCode != 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest(res);
             }
 
-            return Ok("Item has been created successfully!");
+            return Ok(res);
         }
 
         [HttpPut]
@@ -74,24 +91,42 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await itemService.UpdateItemAsync(updatedItem))
+            IConveyOperationResult res = await itemService.UpdateItemAsync(updatedItem);
+
+            if (res.StatusCode != 0)
             {
-                return BadRequest();
+                return BadRequest(res);
             }
 
-            return Ok("Item has been updated successfully!");
+            return Ok(res);
         }
 
         [HttpDelete]
         [Route("{id}/item")]
         public async Task<IActionResult> DeleteItemAsync([FromRoute] int id)
         {
-            if (!await itemService.DeleteItemAsync(id))
+            IConveyOperationResult res = await itemService.DeleteItemAsync(id);
+
+            if (res.StatusCode != 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest(res);
             }
 
-            return Ok("Item has been deleted successfully!");
+            return Ok(res);
+        }
+
+        [HttpDelete]
+        [Route("{code}/item")]
+        public async Task<IActionResult> DeleteItemAsync([FromRoute] string code)
+        {
+            IConveyOperationResult res = await itemService.DeleteItemAsync(code);
+
+            if (res.StatusCode != 0)
+            {
+                return BadRequest(res);
+            }
+
+            return Ok(res);
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Shared;
 using System.Collections.Generic;
 
 namespace Everyday.Core.Models
 {
-    public class UserDTO
+    public class UserDTO : DataTransferObject
     {
-        public UserDTO(User userEntry)
+        public UserDTO(User userEntry) : base()
         {
             Login = userEntry.Login;
             Roles = new();

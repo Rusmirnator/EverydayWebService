@@ -1,8 +1,9 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ItemDefinitionDTO
+    public class ItemDefinitionDTO : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -13,11 +14,11 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ItemDefinitionDTO()
+        public ItemDefinitionDTO() : base()
         {
 
         }
-        public ItemDefinitionDTO(ItemDefinition entry)
+        public ItemDefinitionDTO(ItemDefinition entry) : base()
         {
             Id = entry.Id;
             DimensionsMeasureUnitId = entry.DimensionsMeasureUnitId;
