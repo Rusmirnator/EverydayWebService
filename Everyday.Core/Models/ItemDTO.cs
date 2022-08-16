@@ -23,7 +23,7 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ItemDTO() : base()
+        public ItemDTO()
         {
 
         }
