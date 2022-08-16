@@ -1,8 +1,9 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ContainerDTO
+    public class ContainerDTO : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -11,12 +12,12 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ContainerDTO()
+        public ContainerDTO() : base()
         {
 
         }
 
-        public ContainerDTO(Container entry)
+        public ContainerDTO(Container entry) : base()
         {
             Id = entry.Id;
             TrashTypeId = entry.TrashTypeId;

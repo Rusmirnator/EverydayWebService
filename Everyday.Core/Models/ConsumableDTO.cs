@@ -1,10 +1,9 @@
 ﻿using Everyday.Core.EntitiesPg;
-using System;
-using System.ComponentModel.DataAnnotations;
+using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ConsumableDTO
+    public class ConsumableDTO : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }

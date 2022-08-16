@@ -1,4 +1,5 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Interfaces;
 using Everyday.Core.Models;
 using Everyday.Core.Shared;
 using Everyday.Data.Interfaces;
@@ -35,6 +36,17 @@ namespace Everyday.Services.Services
             return new ItemDTO(entry);
         }
 
+        public async Task<ItemDTO> GetItemByCodeAsync(string code)
+        {
+            Item entry = await itemDataProvider.GetItemByCodeAsync(code);
+
+            if (entry is null)
+            {
+                return null;
+            }
+            return new ItemDTO(entry);
+        }
+
         public async Task<IEnumerable<ItemDTO>> GetItemsAsync()
         {
             IEnumerable<Item> entries = await itemDataProvider.GetItemsAsync();
@@ -53,23 +65,44 @@ namespace Everyday.Services.Services
         #endregion
 
         #region CREATE
-        public async Task<bool> CreateItemAsync(ItemDTO newItem)
+        public async Task<IConveyOperationResult> CreateItemAsync(ItemDTO newItem)
         {
-            return await itemDataProvider.AddItemAsync(newItem);
+            IConveyOperationResult response = await itemDataProvider.AddItemAsync(newItem);
+
+            response.Result = new ItemDTO(response.Result as Item);
+
+            return response;
         }
         #endregion
 
         #region UPDATE
-        public async Task<bool> UpdateItemAsync(ItemDTO updatedItem)
+        public async Task<IConveyOperationResult> UpdateItemAsync(ItemDTO updatedItem)
         {
-            return await itemDataProvider.UpdateItemAsync(updatedItem);
+            IConveyOperationResult response = await itemDataProvider.UpdateItemAsync(updatedItem);
+
+            response.Result = new ItemDTO(response.Result as Item);
+
+            return response;
         }
         #endregion
 
         #region DELETE
-        public async Task<bool> DeleteItemAsync(int id)
+        public async Task<IConveyOperationResult> DeleteItemAsync(int id)
         {
-            return await itemDataProvider.DeleteItemAsync(id);
+            IConveyOperationResult response = await itemDataProvider.DeleteItemAsync(id);
+
+            response.Result = new ItemDTO(response.Result as Item);
+
+            return response;
+        }
+
+        public async Task<IConveyOperationResult> DeleteItemAsync(string code)
+        {
+            IConveyOperationResult response = await itemDataProvider.DeleteItemAsync(code);
+
+            response.Result = new ItemDTO(response.Result as Item);
+
+            return response;
         }
         #endregion
     }
