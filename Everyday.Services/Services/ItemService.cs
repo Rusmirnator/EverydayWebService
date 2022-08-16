@@ -4,6 +4,8 @@ using Everyday.Core.Models;
 using Everyday.Core.Shared;
 using Everyday.Data.Interfaces;
 using Everyday.Services.Interfaces;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,53 +16,79 @@ namespace Everyday.Services.Services
     {
         #region Fields & Properties
         private readonly IItemDataProvider itemDataProvider;
+        private readonly ILogger<ItemService> logger;
 
         #endregion
 
         #region CTOR
-        public ItemService(IItemDataProvider itemDataProvider)
+        public ItemService(IItemDataProvider itemDataProvider, ILogger<ItemService> logger)
         {
             this.itemDataProvider = itemDataProvider;
+            this.logger = logger;
         }
         #endregion
 
         #region READ
         public async Task<ItemDTO> GetItemByIdAsync(int id)
         {
-            Item entry = await itemDataProvider.GetItemByIdAsync(id);
-
-            if (entry is null)
+            try
             {
-                return null;
+                Item entry = await itemDataProvider.GetItemByIdAsync(id);
+
+                if (entry is null)
+                {
+                    return null;
+                }
+                return new ItemDTO(entry);
             }
-            return new ItemDTO(entry);
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+            return null;
         }
 
         public async Task<ItemDTO> GetItemByCodeAsync(string code)
         {
-            Item entry = await itemDataProvider.GetItemByCodeAsync(code);
-
-            if (entry is null)
+            try
             {
-                return null;
+                Item entry = await itemDataProvider.GetItemByCodeAsync(code);
+
+                if (entry is null)
+                {
+                    return null;
+                }
+                return new ItemDTO(entry);
             }
-            return new ItemDTO(entry);
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+            return null;
         }
 
         public async Task<IEnumerable<ItemDTO>> GetItemsAsync()
         {
-            IEnumerable<Item> entries = await itemDataProvider.GetItemsAsync();
-
-            if (entries is null)
+            try
             {
-                return Enumerable.Empty<ItemDTO>();
+                IEnumerable<Item> entries = await itemDataProvider.GetItemsAsync();
+
+                if (entries is null)
+                {
+                    return Enumerable.Empty<ItemDTO>();
+                }
+
+                List<ItemDTO> result = new();
+
+                _ = await entries.MapAsync((e) => result.Add(new ItemDTO(e)));
+
+                return await Task.FromResult(result);
             }
-
-            List<ItemDTO> result = new();
-
-            _ = await entries.MapAsync((e) => result.Add(new ItemDTO(e)));
-
-            return await Task.FromResult(result);
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+            return Enumerable.Empty<ItemDTO>();
         }
         #endregion
 
