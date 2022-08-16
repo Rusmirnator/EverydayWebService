@@ -12,7 +12,7 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ContainerDTO() : base()
+        public ContainerDTO()
         {
 
         }

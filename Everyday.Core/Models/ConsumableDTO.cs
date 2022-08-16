@@ -23,7 +23,7 @@ namespace Everyday.Core.Models
         {
 
         }
-        public ConsumableDTO(Consumable entry)
+        public ConsumableDTO(Consumable entry) : base()
         {
             Id = entry.Id;
             Protein = entry.Protein;

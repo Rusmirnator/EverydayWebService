@@ -14,7 +14,7 @@ namespace Everyday.Core.Models
         #region CTOR
         public ManufacturerDTO() : base()
         {
-            Result = this;
+
         }
 
         public ManufacturerDTO(Manufacturer entry) : base()
