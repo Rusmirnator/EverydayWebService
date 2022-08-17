@@ -36,8 +36,8 @@ namespace Everyday.API.Controllers
         }
 
         [HttpGet]
-        [Route("{code}/item")]
-        public async Task<IActionResult> GetItemByIdAsync([FromRoute] string code)
+        [Route("item")]
+        public async Task<IActionResult> GetItemByIdAsync([FromQuery] string code)
         {
             ItemDTO item = await itemService.GetItemByCodeAsync(code);
 
