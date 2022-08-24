@@ -1,4 +1,5 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Interfaces;
 using Everyday.Core.Models;
 using Everyday.Core.Shared;
 using Everyday.Data.Interfaces;
@@ -34,6 +35,17 @@ namespace Everyday.Services.Services
             return new ConsumableDTO(entry);
         }
 
+        public async Task<ConsumableDTO> GetConsumableByItemCodeAsync(string itemCode)
+        {
+            Consumable entry = await dataProvider.GetConsumableByItemCodeAsync(itemCode);
+
+            if (entry is null)
+            {
+                return null;
+            }
+            return new ConsumableDTO(entry);
+        }
+
         public async Task<IEnumerable<ConsumableDTO>> GetConsumablesAsync()
         {
             IEnumerable<Consumable> entries = await dataProvider.GetConsumablesAsync();
@@ -52,23 +64,36 @@ namespace Everyday.Services.Services
         #endregion
 
         #region CREATE
-        public async Task<bool> CreateConsumableAsync(ConsumableDTO newConsumable)
+        public async Task<IConveyOperationResult> CreateConsumableAsync(ConsumableDTO newConsumable)
         {
-            return await dataProvider.AddConsumableAsync(newConsumable);
+            IConveyOperationResult res = await dataProvider.AddConsumableAsync(newConsumable);
+
+            return new ConsumableDTO(res.Result as Consumable);
         }
         #endregion
 
         #region UPDATE
-        public async Task<bool> UpdateConsumableAsync(ConsumableDTO updatedConsumable)
+        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedConsumable)
         {
-            return await dataProvider.UpdateConsumableAsync(updatedConsumable);
+            IConveyOperationResult res = await dataProvider.UpdateConsumableAsync(updatedConsumable);
+
+            return new ConsumableDTO(res.Result as Consumable);
         }
         #endregion
 
         #region DELETE
-        public async Task<bool> DeleteConsumableAsync(int id)
+        public async Task<IConveyOperationResult> DeleteConsumableAsync(int id)
         {
-            return await dataProvider.DeleteConsumableAsync(id);
+            IConveyOperationResult res = await dataProvider.DeleteConsumableAsync(id);
+
+            return new ConsumableDTO(res.Result as Consumable);
+        }
+
+        public async Task<IConveyOperationResult> DeleteConsumableAsync(string itemCode)
+        {
+            IConveyOperationResult res = await dataProvider.DeleteConsumableAsync(itemCode);
+
+            return new ConsumableDTO(res.Result as Consumable);
         }
         #endregion
     }

@@ -55,8 +55,6 @@ namespace Everyday.Data.DataProviders
         #region CREATE
         public async Task<IConveyOperationResult> AddItemAsync(ItemDTO newItem)
         {
-            OperationResult result;
-
             Item item = await dbContext.Items
                 .Include(e => e.ItemDefinition)
                 .Include(e => e.Manufacturer)
@@ -64,8 +62,7 @@ namespace Everyday.Data.DataProviders
 
             if (item is not null)
             {
-                result = new OperationResult(1, $"Item already exists! - {item.Id}", item);
-                return result;
+                return IConveyOperationResult.Create(1, $"Item already exists! - {item.Id}", item);
             }
 
             item ??= newItem.ToEntity();
@@ -74,20 +71,16 @@ namespace Everyday.Data.DataProviders
 
             if (!await SaveChangesAsync())
             {
-                result = new OperationResult(1, "Couldn't save changes!", item);
+                return IConveyOperationResult.Create(1, "Couldn't save changes!", item);
             }
 
-            result = new(0, $"Item has been created successfuly!", item);
-
-            return result;
+            return IConveyOperationResult.Create(0, $"Item has been created successfuly!", item);
         }
         #endregion
 
         #region UPDATE
         public async Task<IConveyOperationResult> UpdateItemAsync(ItemDTO updatedItem)
         {
-            OperationResult result;
-
             Item item = await dbContext.Items
                 .Include(e => e.ItemDefinition)
                 .Include(e => e.Manufacturer)
@@ -95,22 +88,19 @@ namespace Everyday.Data.DataProviders
 
             if (item is null)
             {
-                result = new OperationResult(-1, $"There is no such item! - {updatedItem.Code}");
-                return result;
+                return IConveyOperationResult.Create(-1, $"There is no such item! - {updatedItem.Code}");
             }
 
             item.ToEntity(updatedItem);
 
             _ = dbContext.Update(item);
 
-            result = new OperationResult(0, "Item changes have been saved successfuly!", item);
-
             if (!await SaveChangesAsync())
             {
-                result = new OperationResult(1, "Couldn't save changes!", item);
+                return IConveyOperationResult.Create(1, "Couldn't save changes!", item);
             }
 
-            return result;
+            return IConveyOperationResult.Create(0, "Item changes have been saved successfuly!", item);
         }
         #endregion
 
@@ -118,12 +108,10 @@ namespace Everyday.Data.DataProviders
         public async Task<IConveyOperationResult> DeleteItemAsync(int id)
         {
             Item entry = await GetItemByIdAsync(id);
-            OperationResult result = new(0, $"{id} has been deleted successfuly!", entry);
 
             if (entry is null)
             {
-                result = new OperationResult(-1, $"There is no such item! - {id}");
-                return result;
+                return IConveyOperationResult.Create(-1, $"There is no such item! - {id}");
             }
 
             dbContext.Items.Remove(entry);
@@ -131,21 +119,19 @@ namespace Everyday.Data.DataProviders
 
             if (!await SaveChangesAsync())
             {
-                result = new OperationResult(1, "Couldn't save changes!", entry);
+                return IConveyOperationResult.Create(1, "Couldn't save changes!", entry);
             }
 
-            return result;
+            return IConveyOperationResult.Create(0, $"{id} has been deleted successfuly!", entry);
         }
 
         public async Task<IConveyOperationResult> DeleteItemAsync(string code)
         {
             Item entry = await GetItemByCodeAsync(code);
-            OperationResult result = new(0, $"{code} has been deleted successfuly!", entry);
 
             if (entry is null)
             {
-                result = new OperationResult(-1, $"There is no such item! - {code}");
-                return result;
+                return IConveyOperationResult.Create(-1, $"There is no such item! - {code}");
             }
 
             dbContext.Items.Remove(entry);
@@ -153,10 +139,10 @@ namespace Everyday.Data.DataProviders
 
             if (!await SaveChangesAsync())
             {
-                result = new OperationResult(1, "Couldn't save changes!", entry);
+                return IConveyOperationResult.Create(1, "Couldn't save changes!", entry);
             }
 
-            return result;
+            return IConveyOperationResult.Create(0, $"{code} has been deleted successfuly!", entry);
         }
         #endregion
 

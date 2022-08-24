@@ -1,5 +1,7 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Interfaces;
 using Everyday.Core.Models;
+using Everyday.Core.Shared;
 using Everyday.Data.DataSource;
 using Everyday.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +29,14 @@ namespace Everyday.Data.DataProviders
         {
             return await dbContext.Consumables
                             .Include(e => e.Item)
-                                .FirstOrDefaultAsync(e => e.ItemId == itemId);
+                                .FirstOrDefaultAsync(e => e.Item.Id == itemId);
+        }
+
+        public async Task<Consumable> GetConsumableByItemCodeAsync(string itemCode)
+        {
+            return await dbContext.Consumables
+                            .Include(e => e.Item)
+                                .FirstOrDefaultAsync(e => e.Item.Code.Equals(itemCode, System.StringComparison.Ordinal));
         }
 
         public async Task<IEnumerable<Consumable>> GetConsumablesAsync()
@@ -39,7 +48,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region CREATE
-        public async Task<bool> AddConsumableAsync(ConsumableDTO newConsumable)
+        public async Task<IConveyOperationResult> AddConsumableAsync(ConsumableDTO newConsumable)
         {
             Consumable consumable = await dbContext.Consumables
                                             .FirstOrDefaultAsync(e => e.Id == newConsumable.Id);
@@ -52,18 +61,23 @@ namespace Everyday.Data.DataProviders
 
             if (owner is null || owner.Consumables.Any())
             {
-                return await Task.FromResult(false);
+                return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
 
             consumable.Item = owner;
             _ = dbContext.Add(consumable);
 
-            return await SaveChangesAsync();
+            if (!await SaveChangesAsync())
+            {
+                return IConveyOperationResult.Create(1, "Couldn't save changes!");
+            }
+
+            return IConveyOperationResult.Create(0, "Consumable created successfuly!", consumable);
         }
         #endregion
 
         #region UPDATE
-        public async Task<bool> UpdateConsumableAsync(ConsumableDTO updatedItem)
+        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedItem)
         {
             Consumable consumable = await dbContext.Consumables
                                             .Include(e => e.Item)
@@ -71,31 +85,61 @@ namespace Everyday.Data.DataProviders
 
             if (consumable is null)
             {
-                return await Task.FromResult(false);
+                return IConveyOperationResult.Create(-1, "Consumable doesn't exist in database!");
             }
 
             consumable.ToEntity(updatedItem);
 
             _ = dbContext.Update(consumable);
 
-            return await SaveChangesAsync();
+            if (!await SaveChangesAsync())
+            {
+                return IConveyOperationResult.Create(1, "Couldn't save changes!");
+            }
+
+            return IConveyOperationResult.Create(0, "Consumable updated successfully!", consumable);
         }
         #endregion
 
         #region DELETE
-        public async Task<bool> DeleteConsumableAsync(int id)
+        public async Task<IConveyOperationResult> DeleteConsumableAsync(int id)
         {
             Consumable entry = await dbContext.Consumables
                                         .FirstOrDefaultAsync(e => e.Id == id);
 
             if (entry is null)
             {
-                return false;
+                return IConveyOperationResult.Create(-1, $"Consumable with id {id} doesn't exist in databse!");
             }
 
             dbContext.Consumables.Remove(entry);
 
-            return await SaveChangesAsync();
+            if (!await SaveChangesAsync())
+            {
+                return IConveyOperationResult.Create(1, "Couldn't save changes!");
+            }
+
+            return IConveyOperationResult.Create(0, $"{id} has been deleted successfuly!", entry);
+        }
+
+        public async Task<IConveyOperationResult> DeleteConsumableAsync(string itemCode)
+        {
+            Consumable entry = await dbContext.Consumables
+                                        .Include(e => e.Item)
+                                            .FirstOrDefaultAsync(e => e.Item.Code.Equals(itemCode, System.StringComparison.Ordinal));
+            if (entry is null)
+            {
+                return IConveyOperationResult.Create(-1, $"Consumable with item code {itemCode} doesn't exist in database!");
+            }
+
+            dbContext.Consumables.Remove(entry);
+
+            if (!await SaveChangesAsync())
+            {
+                return IConveyOperationResult.Create(1, "Couldn't save changes!");
+            }
+
+            return IConveyOperationResult.Create(0, $"{itemCode}'s consumable has been deleted successfuly!", entry);
         }
         #endregion
 
