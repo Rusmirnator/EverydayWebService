@@ -28,7 +28,7 @@ namespace Everyday.Data.DataProviders
         #region READ
         public async Task<Manufacturer> GetManufacturerByNameAsync(string name)
         {
-            return await dbContext.Manufacturers.FirstOrDefaultAsync(e => e.Name.Equals(name, StringComparison.Ordinal));
+            return await dbContext.Manufacturers.FirstOrDefaultAsync(e => e.Name.Equals(name));
         }
 
         public async Task<IEnumerable<Manufacturer>> GetManufacturersAsync()
