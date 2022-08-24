@@ -1,7 +1,6 @@
 ﻿using Everyday.Core.EntitiesPg;
 using Everyday.Core.Interfaces;
 using Everyday.Core.Models;
-using Everyday.Core.Shared;
 using Everyday.Data.DataSource;
 using Everyday.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
