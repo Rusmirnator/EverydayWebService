@@ -35,7 +35,7 @@ namespace Everyday.Data.DataProviders
         {
             return await dbContext.Consumables
                             .Include(e => e.Item)
-                                .FirstOrDefaultAsync(e => e.Item.Code.Equals(itemCode, System.StringComparison.Ordinal));
+                                .FirstOrDefaultAsync(e => e.Item.Code.Equals(itemCode));
         }
 
         public async Task<IEnumerable<Consumable>> GetConsumablesAsync()
@@ -125,7 +125,7 @@ namespace Everyday.Data.DataProviders
         {
             Consumable entry = await dbContext.Consumables
                                         .Include(e => e.Item)
-                                            .FirstOrDefaultAsync(e => e.Item.Code.Equals(itemCode, System.StringComparison.Ordinal));
+                                            .FirstOrDefaultAsync(e => e.Item.Code.Equals(itemCode));
             if (entry is null)
             {
                 return IConveyOperationResult.Create(-1, $"Consumable with item code {itemCode} doesn't exist in database!");

@@ -38,7 +38,7 @@ namespace Everyday.Data.DataProviders
                             .Include(i => i.ItemDefinition)
                             .Include(i => i.Containers)
                             .Include(i => i.Manufacturer)
-                                .FirstOrDefaultAsync(e => e.Code.Equals(code, System.StringComparison.Ordinal));
+                                .FirstOrDefaultAsync(e => e.Code.Equals(code));
         }
 
         public async Task<IEnumerable<Item>> GetItemsAsync()
