@@ -37,10 +37,12 @@ namespace Everyday.API
                     .AddScoped<IUserDataProvider, UserDataProvider>()
                     .AddScoped<IItemDataProvider, ItemDataProvider>()
                     .AddScoped<IConsumableDataProvider, ConsumableDataProvider>()
+                    .AddScoped<IManufacturerDataProvider, ManufacturerDataProvider>()
                     .AddScoped<ICryptographyService, CryptographyService>()
                     .AddScoped<IUserService, UserService>()
                     .AddScoped<IItemService, ItemService>()
                     .AddScoped<IConsumableService, ConsumableService>()
+                    .AddScoped<IManufacturerService, ManufacturerService>()
                     .AddScoped<ITokenService, TokenService>();
 
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);

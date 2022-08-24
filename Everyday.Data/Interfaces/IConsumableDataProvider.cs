@@ -1,4 +1,5 @@
 ﻿using Everyday.Core.EntitiesPg;
+using Everyday.Core.Interfaces;
 using Everyday.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,8 +10,10 @@ namespace Everyday.Data.Interfaces
     {
         public Task<IEnumerable<Consumable>> GetConsumablesAsync();
         public Task<Consumable> GetConsumableByItemIdAsync(int itemId);
-        public Task<bool> AddConsumableAsync(ConsumableDTO newConsumable);
-        public Task<bool> UpdateConsumableAsync(ConsumableDTO updatedConsumable);
-        public Task<bool> DeleteConsumableAsync(int id);
+        public Task<Consumable> GetConsumableByItemCodeAsync(string itemCode);
+        public Task<IConveyOperationResult> AddConsumableAsync(ConsumableDTO newConsumable);
+        public Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedConsumable);
+        public Task<IConveyOperationResult> DeleteConsumableAsync(int id);
+        public Task<IConveyOperationResult> DeleteConsumableAsync(string itemCode);
     }
 }

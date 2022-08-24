@@ -1,4 +1,5 @@
-﻿using Everyday.Core.Models;
+﻿using Everyday.Core.Interfaces;
+using Everyday.Core.Models;
 using Everyday.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,20 @@ namespace Everyday.API.Controllers
         }
 
         [HttpGet]
+        [Route("consumable")]
+        public async Task<IActionResult> GetConsumableByItemCodeAsync([FromQuery] string itemCode)
+        {
+            ConsumableDTO consumable = await consumableService.GetConsumableByItemCodeAsync(itemCode);
+
+            if (consumable is null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(consumable);
+        }
+
+        [HttpGet]
         [Route("consumables")]
         public async Task<IActionResult> GetConsumablesAsync()
         {
@@ -57,12 +72,14 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await consumableService.CreateConsumableAsync(newConsumable))
+            IConveyOperationResult res = await consumableService.CreateConsumableAsync(newConsumable);
+
+            if (res.StatusCode != 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest(res);
             }
 
-            return Ok("Consumable has been created successfully!");
+            return Ok(res);
         }
 
         [HttpPut]
@@ -74,24 +91,40 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!await consumableService.UpdateConsumableAsync(updatedConsumable))
+            IConveyOperationResult res = await consumableService.UpdateConsumableAsync(updatedConsumable);
+
+            if (res.StatusCode != 0)
             {
-                return BadRequest();
+                return BadRequest(res);
             }
 
-            return Ok("Consumable has been updated successfully!");
+            return Ok(res);
         }
 
         [HttpDelete]
         [Route("{id}/consumable")]
         public async Task<IActionResult> DeleteConsumableAsync([FromRoute] int id)
         {
-            if (!await consumableService.DeleteConsumableAsync(id))
+            IConveyOperationResult res = await consumableService.DeleteConsumableAsync(id);
+            if (res.StatusCode != 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest(res);
             }
 
-            return Ok("Consumable has been deleted successfully!");
+            return Ok(res);
+        }
+
+        [HttpDelete]
+        [Route("consumable")]
+        public async Task<IActionResult> DeleteConsumableAsync([FromQuery] string code)
+        {
+            IConveyOperationResult res = await consumableService.DeleteConsumableAsync(code);
+            if (res.StatusCode != 0)
+            {
+                return BadRequest(res);
+            }
+
+            return Ok(res);
         }
     }
 }

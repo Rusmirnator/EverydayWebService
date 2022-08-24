@@ -51,16 +51,12 @@ namespace Everyday.Services.Services
         {
             IEnumerable<Item> entries = await itemDataProvider.GetItemsAsync();
 
-            if (entries is null)
+            if (!entries.Any())
             {
                 return Enumerable.Empty<ItemDTO>();
             }
 
-            List<ItemDTO> result = new();
-
-            _ = await entries.MapAsync((e) => result.Add(new ItemDTO(e)));
-
-            return await Task.FromResult(result);
+            return await Task.FromResult(entries.Select(e => new ItemDTO(e)));
         }
         #endregion
 
