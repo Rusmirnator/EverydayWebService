@@ -90,7 +90,7 @@ namespace Everyday.Data.DataProviders
                 return IConveyOperationResult.Create(-1, $"There is no such item! - {updatedItem.Code}");
             }
 
-            item.ToEntity(updatedItem);
+            item.Sync(updatedItem);
 
             _ = dbContext.Update(item);
 

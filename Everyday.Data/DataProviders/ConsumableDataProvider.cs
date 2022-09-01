@@ -87,7 +87,7 @@ namespace Everyday.Data.DataProviders
                 return IConveyOperationResult.Create(-1, "Consumable doesn't exist in database!");
             }
 
-            consumable.ToEntity(updatedItem);
+            consumable.Sync(updatedItem);
 
             _ = dbContext.Update(consumable);
 

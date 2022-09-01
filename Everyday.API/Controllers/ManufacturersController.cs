@@ -22,8 +22,8 @@ namespace Everyday.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/manufacturer")]
-        public async Task<IActionResult> GetManufacturerAsync([FromRoute] string name)
+        [Route("manufacturer")]
+        public async Task<IActionResult> GetManufacturerAsync([FromQuery] string name)
         {
             ManufacturerDTO manufacturer = await manufacturerService.GetManufacturerByNameAsync(name);
 

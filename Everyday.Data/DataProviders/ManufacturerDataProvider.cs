@@ -70,7 +70,7 @@ namespace Everyday.Data.DataProviders
                 return IConveyOperationResult.Create(-1, "Manufacturer with given name doesn't exist!");
             }
 
-            existingEntry.ToEntity(updatedManufacturer);
+            existingEntry.Sync(updatedManufacturer);
 
             dbContext.Manufacturers.Update(existingEntry);
 
