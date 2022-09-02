@@ -3,7 +3,7 @@ using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ManufacturerDTO : DataTransferObject
+    public class ManufacturerModel : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -12,12 +12,12 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ManufacturerDTO() : base()
+        public ManufacturerModel() : base()
         {
 
         }
 
-        public ManufacturerDTO(Manufacturer entry) : base()
+        public ManufacturerModel(Manufacturer entry) : base()
         {
             Id = entry.Id;
             Name = entry.Name;

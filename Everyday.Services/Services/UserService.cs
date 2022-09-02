@@ -18,14 +18,14 @@ namespace Everyday.Services.Services
             this.userDataProvider = userDataProvider;
             this.cryptographyService = cryptographyService;
         }
-        public async Task<UserDTO> GetUserAsync(string login, string password)
+        public async Task<UserModel> GetUserAsync(string login, string password)
         {
             User entry = await userDataProvider.GetUserAsync(login, 
                 cryptographyService.GetSHA256Digest(string.Concat(password, Constants.SUFFIX, Constants.SALT)));
 
             if (entry is not null)
             {
-                UserDTO user = new(entry);
+                UserModel user = new(entry);
 
                 var query = await userDataProvider.GetUserRolesAsync(entry.Id);
 
@@ -33,7 +33,7 @@ namespace Everyday.Services.Services
 
                 return await Task.FromResult(user);
             }
-            return await Task.FromResult(null as UserDTO);
+            return await Task.FromResult(null as UserModel);
         }
     }
 }

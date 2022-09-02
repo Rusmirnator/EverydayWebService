@@ -25,7 +25,7 @@ namespace Everyday.API.Controllers
         [Route("{itemId}/consumable")]
         public async Task<IActionResult> GetConsumableByItemIdAsync([FromRoute] int itemId)
         {
-            ConsumableDTO consumable = await consumableService.GetConsumableByItemIdAsync(itemId);
+            ConsumableModel consumable = await consumableService.GetConsumableByItemIdAsync(itemId);
 
             if (consumable is null)
             {
@@ -39,7 +39,7 @@ namespace Everyday.API.Controllers
         [Route("consumable")]
         public async Task<IActionResult> GetConsumableByItemCodeAsync([FromQuery] string itemCode)
         {
-            ConsumableDTO consumable = await consumableService.GetConsumableByItemCodeAsync(itemCode);
+            ConsumableModel consumable = await consumableService.GetConsumableByItemCodeAsync(itemCode);
 
             if (consumable is null)
             {
@@ -53,7 +53,7 @@ namespace Everyday.API.Controllers
         [Route("consumables")]
         public async Task<IActionResult> GetConsumablesAsync()
         {
-            IEnumerable<ConsumableDTO> consumables = await consumableService.GetConsumablesAsync();
+            IEnumerable<ConsumableModel> consumables = await consumableService.GetConsumablesAsync();
 
             if (!consumables.Any())
             {
@@ -65,7 +65,7 @@ namespace Everyday.API.Controllers
 
         [HttpPost]
         [Route("consumable")]
-        public async Task<IActionResult> CreateConsumableAsync([FromBody] ConsumableDTO newConsumable)
+        public async Task<IActionResult> CreateConsumableAsync([FromBody] ConsumableModel newConsumable)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Everyday.API.Controllers
 
         [HttpPut]
         [Route("consumable")]
-        public async Task<IActionResult> UpdateConsumableAsync([FromBody] ConsumableDTO updatedConsumable)
+        public async Task<IActionResult> UpdateConsumableAsync([FromBody] ConsumableModel updatedConsumable)
         {
             if (!ModelState.IsValid)
             {

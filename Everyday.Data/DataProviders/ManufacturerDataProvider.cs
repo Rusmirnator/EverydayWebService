@@ -38,7 +38,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> CreateManufacturerAsync(ManufacturerDTO newManufacturer)
+        public async Task<IConveyOperationResult> CreateManufacturerAsync(ManufacturerModel newManufacturer)
         {
             Manufacturer newEntry = await GetManufacturerByNameAsync(newManufacturer.Name);
 
@@ -61,7 +61,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateManufacturerAsync(ManufacturerDTO updatedManufacturer)
+        public async Task<IConveyOperationResult> UpdateManufacturerAsync(ManufacturerModel updatedManufacturer)
         {
             Manufacturer existingEntry = await GetManufacturerByNameAsync(updatedManufacturer.Name);
 

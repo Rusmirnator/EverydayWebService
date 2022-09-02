@@ -33,7 +33,7 @@ namespace Everyday.API.Controllers
                 return StatusCode(400, "Provided login or password has invalid format or is empty!");
             }
 
-            UserDTO validUser = await userService.GetUserAsync(login, password);
+            UserModel validUser = await userService.GetUserAsync(login, password);
 
             if (validUser is not null)
             {

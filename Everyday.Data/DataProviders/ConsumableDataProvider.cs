@@ -47,7 +47,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> AddConsumableAsync(ConsumableDTO newConsumable)
+        public async Task<IConveyOperationResult> AddConsumableAsync(ConsumableModel newConsumable)
         {
             Consumable consumable = await dbContext.Consumables
                                             .FirstOrDefaultAsync(e => e.Id == newConsumable.Id);
@@ -76,7 +76,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedItem)
+        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableModel updatedItem)
         {
             Consumable consumable = await dbContext.Consumables
                                             .Include(e => e.Item)

@@ -25,7 +25,7 @@ namespace Everyday.Services.Services
         #endregion
 
         #region READ
-        public async Task<ItemDTO> GetItemByIdAsync(int id)
+        public async Task<ItemModel> GetItemByIdAsync(int id)
         {
             Item entry = await itemDataProvider.GetItemByIdAsync(id);
 
@@ -33,10 +33,10 @@ namespace Everyday.Services.Services
             {
                 return null;
             }
-            return new ItemDTO(entry);
+            return new ItemModel(entry);
         }
 
-        public async Task<ItemDTO> GetItemByCodeAsync(string code)
+        public async Task<ItemModel> GetItemByCodeAsync(string code)
         {
             Item entry = await itemDataProvider.GetItemByCodeAsync(code);
 
@@ -44,39 +44,39 @@ namespace Everyday.Services.Services
             {
                 return null;
             }
-            return new ItemDTO(entry);
+            return new ItemModel(entry);
         }
 
-        public async Task<IEnumerable<ItemDTO>> GetItemsAsync()
+        public async Task<IEnumerable<ItemModel>> GetItemsAsync()
         {
             IEnumerable<Item> entries = await itemDataProvider.GetItemsAsync();
 
             if (!entries.Any())
             {
-                return Enumerable.Empty<ItemDTO>();
+                return Enumerable.Empty<ItemModel>();
             }
 
-            return await Task.FromResult(entries.Select(e => new ItemDTO(e)));
+            return await Task.FromResult(entries.Select(e => new ItemModel(e)));
         }
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> CreateItemAsync(ItemDTO newItem)
+        public async Task<IConveyOperationResult> CreateItemAsync(ItemModel newItem)
         {
             IConveyOperationResult response = await itemDataProvider.AddItemAsync(newItem);
 
-            response.Result = new ItemDTO(response.Result as Item);
+            response.Result = new ItemModel(response.Result as Item);
 
             return response;
         }
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateItemAsync(ItemDTO updatedItem)
+        public async Task<IConveyOperationResult> UpdateItemAsync(ItemModel updatedItem)
         {
             IConveyOperationResult response = await itemDataProvider.UpdateItemAsync(updatedItem);
 
-            response.Result = new ItemDTO(response.Result as Item);
+            response.Result = new ItemModel(response.Result as Item);
 
             return response;
         }
@@ -87,7 +87,7 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult response = await itemDataProvider.DeleteItemAsync(id);
 
-            response.Result = new ItemDTO(response.Result as Item);
+            response.Result = new ItemModel(response.Result as Item);
 
             return response;
         }
@@ -96,7 +96,7 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult response = await itemDataProvider.DeleteItemAsync(code);
 
-            response.Result = new ItemDTO(response.Result as Item);
+            response.Result = new ItemModel(response.Result as Item);
 
             return response;
         }

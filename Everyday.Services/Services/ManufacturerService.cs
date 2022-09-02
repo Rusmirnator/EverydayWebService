@@ -25,7 +25,7 @@ namespace Everyday.Services.Services
         #endregion
 
         #region READ
-        public async Task<ManufacturerDTO> GetManufacturerByNameAsync(string name)
+        public async Task<ManufacturerModel> GetManufacturerByNameAsync(string name)
         {
             Manufacturer res = await dataProvider.GetManufacturerByNameAsync(name);
 
@@ -34,37 +34,37 @@ namespace Everyday.Services.Services
                 return null;
             }
 
-            return new ManufacturerDTO(res);
+            return new ManufacturerModel(res);
         }
 
-        public async Task<IEnumerable<ManufacturerDTO>> GetManufacturersAsync()
+        public async Task<IEnumerable<ManufacturerModel>> GetManufacturersAsync()
         {
             IEnumerable<Manufacturer> data = await dataProvider.GetManufacturersAsync();
 
             if (!data.Any())
             {
-                return Enumerable.Empty<ManufacturerDTO>();
+                return Enumerable.Empty<ManufacturerModel>();
             }
 
-            return data.Select(e => new ManufacturerDTO(e));
+            return data.Select(e => new ManufacturerModel(e));
         }
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> CreateManufacturerAsync(ManufacturerDTO newManufacturer)
+        public async Task<IConveyOperationResult> CreateManufacturerAsync(ManufacturerModel newManufacturer)
         {
             IConveyOperationResult res = await dataProvider.CreateManufacturerAsync(newManufacturer);
 
-            return new ManufacturerDTO(res.Result as Manufacturer);
+            return new ManufacturerModel(res.Result as Manufacturer);
         }
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateManufacturerAsync(ManufacturerDTO updatedManufacturer)
+        public async Task<IConveyOperationResult> UpdateManufacturerAsync(ManufacturerModel updatedManufacturer)
         {
             IConveyOperationResult res = await dataProvider.UpdateManufacturerAsync(updatedManufacturer);
 
-            return new ManufacturerDTO(res.Result as Manufacturer);
+            return new ManufacturerModel(res.Result as Manufacturer);
         }
         #endregion
 
@@ -73,7 +73,7 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.DeleteManufacturerAsync(id);
 
-            return new ManufacturerDTO(res.Result as Manufacturer);
+            return new ManufacturerModel(res.Result as Manufacturer);
         }
         #endregion
     }

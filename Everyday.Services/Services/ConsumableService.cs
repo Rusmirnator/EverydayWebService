@@ -24,7 +24,7 @@ namespace Everyday.Services.Services
         #endregion
 
         #region READ
-        public async Task<ConsumableDTO> GetConsumableByItemIdAsync(int itemId)
+        public async Task<ConsumableModel> GetConsumableByItemIdAsync(int itemId)
         {
             Consumable entry = await dataProvider.GetConsumableByItemIdAsync(itemId);
 
@@ -32,10 +32,10 @@ namespace Everyday.Services.Services
             {
                 return null;
             }
-            return new ConsumableDTO(entry);
+            return new ConsumableModel(entry);
         }
 
-        public async Task<ConsumableDTO> GetConsumableByItemCodeAsync(string itemCode)
+        public async Task<ConsumableModel> GetConsumableByItemCodeAsync(string itemCode)
         {
             Consumable entry = await dataProvider.GetConsumableByItemCodeAsync(itemCode);
 
@@ -43,41 +43,41 @@ namespace Everyday.Services.Services
             {
                 return null;
             }
-            return new ConsumableDTO(entry);
+            return new ConsumableModel(entry);
         }
 
-        public async Task<IEnumerable<ConsumableDTO>> GetConsumablesAsync()
+        public async Task<IEnumerable<ConsumableModel>> GetConsumablesAsync()
         {
             IEnumerable<Consumable> entries = await dataProvider.GetConsumablesAsync();
 
             if (entries is null)
             {
-                return Enumerable.Empty<ConsumableDTO>();
+                return Enumerable.Empty<ConsumableModel>();
             }
 
-            List<ConsumableDTO> result = new();
+            List<ConsumableModel> result = new();
 
-            _ = await entries.MapAsync((e) => result.Add(new ConsumableDTO(e)));
+            _ = await entries.MapAsync((e) => result.Add(new ConsumableModel(e)));
 
             return await Task.FromResult(result);
         }
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> CreateConsumableAsync(ConsumableDTO newConsumable)
+        public async Task<IConveyOperationResult> CreateConsumableAsync(ConsumableModel newConsumable)
         {
             IConveyOperationResult res = await dataProvider.AddConsumableAsync(newConsumable);
 
-            return new ConsumableDTO(res.Result as Consumable);
+            return new ConsumableModel(res.Result as Consumable);
         }
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedConsumable)
+        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableModel updatedConsumable)
         {
             IConveyOperationResult res = await dataProvider.UpdateConsumableAsync(updatedConsumable);
 
-            return new ConsumableDTO(res.Result as Consumable);
+            return new ConsumableModel(res.Result as Consumable);
         }
         #endregion
 
@@ -86,14 +86,14 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.DeleteConsumableAsync(id);
 
-            return new ConsumableDTO(res.Result as Consumable);
+            return new ConsumableModel(res.Result as Consumable);
         }
 
         public async Task<IConveyOperationResult> DeleteConsumableAsync(string itemCode)
         {
             IConveyOperationResult res = await dataProvider.DeleteConsumableAsync(itemCode);
 
-            return new ConsumableDTO(res.Result as Consumable);
+            return new ConsumableModel(res.Result as Consumable);
         }
         #endregion
     }

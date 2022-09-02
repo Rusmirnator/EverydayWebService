@@ -10,7 +10,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Item ToEntity(this ItemDTO dto)
+        public static Item ToEntity(this ItemModel dto)
         {
             Item item = new Item
             {
@@ -51,7 +51,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static ItemDefinition ToEntity(this ItemDefinitionDTO dto)
+        public static ItemDefinition ToEntity(this ItemDefinitionModel dto)
         {
             return new ItemDefinition
             {
@@ -68,7 +68,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Manufacturer ToEntity(this ManufacturerDTO dto)
+        public static Manufacturer ToEntity(this ManufacturerModel dto)
         {
             return new Manufacturer
             {
@@ -83,7 +83,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Consumable ToEntity(this ConsumableDTO dto)
+        public static Consumable ToEntity(this ConsumableModel dto)
         {
             return new Consumable
             {
@@ -105,7 +105,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Manufacturer Sync(this Manufacturer source, ManufacturerDTO dto)
+        public static Manufacturer Sync(this Manufacturer source, ManufacturerModel dto)
         {
             source.Name = dto.Name;
             source.Description = dto.Description;
@@ -119,7 +119,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static ItemDefinition Sync(this ItemDefinition source, ItemDefinitionDTO dto)
+        public static ItemDefinition Sync(this ItemDefinition source, ItemDefinitionModel dto)
         {
             source.DimensionsMeasureUnitId = dto.DimensionsMeasureUnitId;
             source.WeightMeasureUnitId = dto.WeightMeasureUnitId;
@@ -135,7 +135,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Item Sync(this Item source, ItemDTO dto)
+        public static Item Sync(this Item source, ItemModel dto)
         {
             source.Code = dto.Code;
             source.Name = dto.Name;
@@ -157,7 +157,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Consumable Sync(this Consumable source, ConsumableDTO dto)
+        public static Consumable Sync(this Consumable source, ConsumableModel dto)
         {
             source.Protein = dto.Protein;
             source.Carbohydrates = dto.Carbohydrates;

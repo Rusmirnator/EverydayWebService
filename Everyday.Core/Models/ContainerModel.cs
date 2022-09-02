@@ -3,7 +3,7 @@ using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ContainerDTO : DataTransferObject
+    public class ContainerModel : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -12,12 +12,12 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ContainerDTO()
+        public ContainerModel()
         {
 
         }
 
-        public ContainerDTO(Container entry) : base()
+        public ContainerModel(Container entry) : base()
         {
             Id = entry.Id;
             TrashTypeId = entry.TrashTypeId;
