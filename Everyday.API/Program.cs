@@ -23,7 +23,10 @@ namespace Everyday.API
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder
+#if DEBUG
                     .UseUrls(BuildHostingUrls())
+#endif
+                    .UseUrls("https://192.168.0.168:5001", "http://192.168.0.168:5000")
                         .UseStartup<Startup>();
             });
 
