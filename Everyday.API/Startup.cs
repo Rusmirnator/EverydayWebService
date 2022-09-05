@@ -9,11 +9,13 @@ using Everyday.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -75,7 +77,7 @@ namespace Everyday.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Everyday.API v1"));
             }
-            
+
             app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthentication();
@@ -89,6 +91,23 @@ namespace Everyday.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
+            app.Use(async (context, next) =>
+            {
+                string forwardedPath = context.Request.Headers["X-Forwarded-Path"].FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(forwardedPath))
+                {
+                    context.Request.PathBase = forwardedPath;
+                }
+
+                await next();
             });
         }
     }
