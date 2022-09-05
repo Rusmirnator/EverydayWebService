@@ -75,7 +75,7 @@ namespace Everyday.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Everyday.API v1"));
             }
-
+            
             app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthentication();
