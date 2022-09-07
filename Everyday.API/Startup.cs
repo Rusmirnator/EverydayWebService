@@ -76,13 +76,12 @@ namespace Everyday.API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Everyday.API v1"));
+                app.UseHttpsRedirection();
             }
 
             app.UseMiddleware<ErrorHandler>();
 
             app.UseAuthentication();
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
