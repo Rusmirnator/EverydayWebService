@@ -44,7 +44,7 @@ namespace Everyday.API.Middleware
                         break;
                 }
 
-                var result = JsonConvert.SerializeObject(new { message = error?.Message });
+                var result = JsonConvert.SerializeObject(new { message = error?.Message, debug = Environment.GetEnvironmentVariable("DATABASE_URL") });
 
                 await response.WriteAsync(result);
             }
