@@ -36,7 +36,10 @@ namespace Everyday.Data.DataSource
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")));
+                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")), options =>
+                    {
+                        options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                    });
             }
         }
 
