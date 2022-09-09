@@ -4,6 +4,7 @@ using Everyday.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Threading.Tasks;
 
 namespace Everyday.API.Controllers
@@ -38,10 +39,11 @@ namespace Everyday.API.Controllers
             if (validUser is not null)
             {
                 string generatedToken = tokenService
-                    .BuildToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
+                    .BuildToken(Environment.GetEnvironmentVariable(config["Jwt:JWT_KEY"]), 
+                                    config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
 
                 if (generatedToken != null
-                    && tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
+                    && tokenService.ValidateToken(config["Jwt:JWT_KEY"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
                 {
                     return Ok(generatedToken);
                 }

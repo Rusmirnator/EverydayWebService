@@ -20,8 +20,8 @@ namespace Everyday.Services.Services
         }
         public async Task<UserModel> GetUserAsync(string login, string password)
         {
-            User entry = await userDataProvider.GetUserAsync(login, 
-                cryptographyService.GetSHA256Digest(string.Concat(password, Constants.SUFFIX, Constants.SALT)));
+            User entry = await userDataProvider.GetUserAsync(cryptographyService.Decrypt(login), 
+                cryptographyService.GetSHA256Digest(string.Concat(cryptographyService.Decrypt(password), Constants.SUFFIX, Constants.SALT)));
 
             if (entry is not null)
             {
