@@ -43,7 +43,7 @@ namespace Everyday.API.Controllers
                                     config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
 
                 if (generatedToken != null
-                    && tokenService.ValidateToken(config["Jwt:JWT_KEY"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
+                    && tokenService.ValidateToken(Environment.GetEnvironmentVariable(config["Jwt:JWT_KEY"]), config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
                 {
                     return Ok(generatedToken);
                 }
