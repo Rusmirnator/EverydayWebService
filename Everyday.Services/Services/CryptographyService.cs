@@ -23,7 +23,7 @@ namespace Everyday.Services.Services
         {
             this.config = config;
             this.logger = logger;
-            AESKey = Environment.GetEnvironmentVariable(this.config["Encryption:AESKey"]); 
+            AESKey = this.config["Encryption:AESKey"]; 
         }
         #endregion
 

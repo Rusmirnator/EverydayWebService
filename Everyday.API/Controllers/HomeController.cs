@@ -39,16 +39,16 @@ namespace Everyday.API.Controllers
             if (validUser is not null)
             {
                 string generatedToken = tokenService
-                    .BuildToken(Environment.GetEnvironmentVariable(config["Jwt:Key"]), config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
+                    .BuildToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
 
                 if (generatedToken != null
-                    && tokenService.ValidateToken(Environment.GetEnvironmentVariable(config["Jwt:Key"]), config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
+                    && tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
                 {
                     return Ok(generatedToken);
                 }
                 return StatusCode(500, "Created JWT is invalid!");
             }
-            return StatusCode(400, $"Provided login or password is invalid! -- {Environment.GetEnvironmentVariable(config["Jwt:Key"])} -- {Environment.GetEnvironmentVariable(config["Encryption:AESKey"])}");
+            return StatusCode(401, $"Provided login or password is invalid!");
         }
     }
 }
