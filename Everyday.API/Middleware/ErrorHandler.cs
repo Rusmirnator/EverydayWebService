@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Everyday.Core.Shared;
+using Everyday.Services.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Everyday.API.Middleware
@@ -17,7 +19,7 @@ namespace Everyday.API.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, ILogger<ErrorHandler> logger)
         {
             try
             {
@@ -44,6 +46,7 @@ namespace Everyday.API.Middleware
                         break;
                 }
 
+                logger.LogError(error.Message);
                 var result = JsonConvert.SerializeObject(new { message = error?.Message, innerMessage = error?.InnerException?.Message });
 
                 await response.WriteAsync(result);

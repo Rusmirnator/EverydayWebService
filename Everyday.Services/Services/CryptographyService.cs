@@ -23,7 +23,9 @@ namespace Everyday.Services.Services
         {
             this.config = config;
             this.logger = logger;
-            AESKey = this.config["Encryption:AESKey"]; 
+            AESKey = Environment.GetEnvironmentVariable(this.config["Encryption:AESKey"]);
+
+            logger.LogDebug($"AES_KEY environment variale read ={AESKey}");
         }
         #endregion
 
@@ -120,7 +122,7 @@ namespace Everyday.Services.Services
             byte[] textbytes = Encoding.UTF8.GetBytes(rawText);
             byte[] keybytes = PrepareAESKey(useHashing, aesType, key);
             byte[] ivbytes = PrepareVector(keybytes, iv);
-    
+
             using (Aes aes = Aes.Create())
             {
                 aes.BlockSize = 128;
@@ -160,7 +162,7 @@ namespace Everyday.Services.Services
 
                 result = Convert.ToBase64String(encrypted, 0, encrypted.Length);
             }
- 
+
             ClearTable(keybytes);
             ClearTable(ivbytes);
 

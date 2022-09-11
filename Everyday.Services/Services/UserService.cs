@@ -3,6 +3,7 @@ using Everyday.Core.Models;
 using Everyday.Core.Shared;
 using Everyday.Data.Interfaces;
 using Everyday.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,14 +13,19 @@ namespace Everyday.Services.Services
     {
         private readonly IUserDataProvider userDataProvider;
         private readonly ICryptographyService cryptographyService;
+        private readonly ILogger<UserService> logger;
 
-        public UserService(IUserDataProvider userDataProvider, ICryptographyService cryptographyService)
+        public UserService(IUserDataProvider userDataProvider, ICryptographyService cryptographyService, ILogger<UserService> logger)
         {
             this.userDataProvider = userDataProvider;
             this.cryptographyService = cryptographyService;
+            this.logger = logger;
         }
         public async Task<UserModel> GetUserAsync(string login, string password)
         {
+            logger.LogInformation(cryptographyService.Decrypt(login));
+            logger.LogInformation(cryptographyService.Decrypt(password));
+
             User entry = await userDataProvider.GetUserAsync(cryptographyService.Decrypt(login), 
                 cryptographyService.GetSHA256Digest(string.Concat(cryptographyService.Decrypt(password), Constants.SUFFIX, Constants.SALT)));
 
