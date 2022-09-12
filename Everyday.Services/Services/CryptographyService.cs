@@ -23,9 +23,9 @@ namespace Everyday.Services.Services
         {
             this.config = config;
             this.logger = logger;
-            AESKey = Environment.GetEnvironmentVariable(this.config["Encryption:AESKey"]);
+            AESKey = this.config["Encryption:AESKey"];
 
-            logger.LogDebug($"AES_KEY environment variale read ={AESKey}");
+            logger.LogDebug($"AES secret read: {AESKey}");
         }
         #endregion
 
