@@ -23,14 +23,13 @@ namespace Everyday.Services.Services
         }
         public async Task<UserModel> GetUserAsync(string login, string password)
         {
-            logger.LogInformation(cryptographyService.Decrypt(login));
-            logger.LogInformation(cryptographyService.Decrypt(password));
-
             User entry = await userDataProvider.GetUserAsync(cryptographyService.Decrypt(login), 
                 cryptographyService.GetSHA256Digest(string.Concat(cryptographyService.Decrypt(password), Constants.SUFFIX, Constants.SALT)));
 
             if (entry is not null)
             {
+                logger.LogDebug($"User {entry.Login} logging in...");
+
                 UserModel user = new(entry);
 
                 var query = await userDataProvider.GetUserRolesAsync(entry.Id);
