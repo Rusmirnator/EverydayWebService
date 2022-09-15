@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 using Everyday.Core.EntitiesPg;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,7 @@ namespace Everyday.Data.DataSource
         }
 
         public EverydayContext(DbContextOptions<EverydayContext> options)
-            : base(options)
-        {
-
-        }
+            : base(options) { }
 
         public virtual DbSet<Consumable> Consumables { get; set; }
         public virtual DbSet<Container> Containers { get; set; }

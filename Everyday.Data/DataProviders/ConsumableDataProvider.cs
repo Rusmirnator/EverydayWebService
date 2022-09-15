@@ -54,7 +54,7 @@ namespace Everyday.Data.DataProviders
 
             Item owner = await dbContext.Items
                                 .Include(e => e.Consumables)
-                                    .FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId);
+                                    .FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId.GetValueOrDefault());
 
             consumable ??= newConsumable.ToEntity();
 

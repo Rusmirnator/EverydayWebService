@@ -50,7 +50,6 @@ namespace Everyday.API
             services.AddControllers()
                     .AddNewtonsoftJson(options => 
                     {
-                        options.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
                         options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                         options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
