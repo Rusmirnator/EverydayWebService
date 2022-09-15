@@ -52,6 +52,10 @@ namespace Everyday.Data.DataProviders
         #region CREATE
         public async Task<IConveyOperationResult> AddConsumableAsync(ConsumableModel newConsumable)
         {
+            logger.LogTrace($"AddConsumableAsync");
+            logger.LogInformation($"AddConsumableAsync");
+            logger.LogDebug($"AddConsumableAsync");
+            logger.LogError($"AddConsumableAsync");
             Consumable consumable = await dbContext.Consumables
                                             .FirstOrDefaultAsync(e => e.Id == newConsumable.Id);
 
@@ -64,10 +68,16 @@ namespace Everyday.Data.DataProviders
             if (owner is null || owner?.Consumables.Any() == true)
             {
                 logger.LogTrace($"Owner item was null or had consumable already assigned...");
+                logger.LogInformation($"Owner item was null or had consumable already assigned...");
+                logger.LogDebug($"Owner item was null or had consumable already assigned...");
+                logger.LogError($"Owner item was null or had consumable already assigned...");
                 return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
 
             logger.LogTrace($"Found owner item: {owner?.Code} - {owner?.Name}");
+            logger.LogInformation($"Found owner item: {owner?.Code} - {owner?.Name}");
+            logger.LogDebug($"Found owner item: {owner?.Code} - {owner?.Name}");
+            logger.LogError($"Found owner item: {owner?.Code} - {owner?.Name}");
             
             consumable.Item = owner;
             _ = dbContext.Add(consumable);
