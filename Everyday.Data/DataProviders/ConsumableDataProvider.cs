@@ -58,7 +58,7 @@ namespace Everyday.Data.DataProviders
 
             consumable ??= newConsumable.ToEntity();
 
-            if (owner is null || owner.Consumables.Any())
+            if (owner is null || owner?.Consumables.Any() == true)
             {
                 return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
