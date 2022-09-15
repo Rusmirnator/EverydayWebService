@@ -48,7 +48,12 @@ namespace Everyday.API
                     .AddScoped<ITokenService, TokenService>();
 
             services.AddControllers()
-                    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+                    .AddNewtonsoftJson(options => 
+                    {
+                        options.SerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                        options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                    });
 
             services.AddSwaggerGen(c =>
             {
