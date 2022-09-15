@@ -4,6 +4,7 @@ using Everyday.Core.Models;
 using Everyday.Data.DataSource;
 using Everyday.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +15,14 @@ namespace Everyday.Data.DataProviders
     {
         #region Fields & Properties
         private readonly EverydayContext dbContext;
+        private readonly ILogger<ConsumableDataProvider> logger;
         #endregion
 
         #region CTOR 
-        public ConsumableDataProvider(EverydayContext dbContext)
+        public ConsumableDataProvider(EverydayContext dbContext, ILogger<ConsumableDataProvider> logger)
         {
             this.dbContext = dbContext;
+            this.logger = logger;
         }
         #endregion
 
@@ -60,9 +63,12 @@ namespace Everyday.Data.DataProviders
 
             if (owner is null || owner?.Consumables.Any() == true)
             {
+                logger.LogInformation($"Owner item was null or had consumable already assigned...");
                 return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
 
+            logger.LogInformation($"Found owner item: {owner?.Code} - {owner?.Name}");
+            
             consumable.Item = owner;
             _ = dbContext.Add(consumable);
 

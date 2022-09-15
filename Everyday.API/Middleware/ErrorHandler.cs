@@ -47,6 +47,7 @@ namespace Everyday.API.Middleware
                 }
 
                 logger.LogError(error.Message);
+                logger.LogError(error?.InnerException?.Message);
                 var result = JsonConvert.SerializeObject(new { message = error?.Message, innerMessage = error?.InnerException?.Message });
 
                 await response.WriteAsync(result);
