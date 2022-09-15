@@ -1,12 +1,17 @@
-﻿namespace Everyday.Core.Interfaces
+﻿using Newtonsoft.Json;
+
+namespace Everyday.Core.Interfaces
 {
     /// <summary>
     /// Special wrapper used to expand HttpResponseMessage content in some cases.
     /// </summary>
     public interface IConveyOperationResult
     {
+        [JsonIgnore]
         public int StatusCode { get; set; }
+        [JsonIgnore]
         public string Message { get; set; }
+        [JsonIgnore]
         public object Result { get; set; }
 
         /// <summary>
