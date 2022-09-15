@@ -63,11 +63,11 @@ namespace Everyday.Data.DataProviders
 
             if (owner is null || owner?.Consumables.Any() == true)
             {
-                logger.LogInformation($"Owner item was null or had consumable already assigned...");
+                logger.LogTrace($"Owner item was null or had consumable already assigned...");
                 return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
 
-            logger.LogInformation($"Found owner item: {owner?.Code} - {owner?.Name}");
+            logger.LogTrace($"Found owner item: {owner?.Code} - {owner?.Name}");
             
             consumable.Item = owner;
             _ = dbContext.Add(consumable);
