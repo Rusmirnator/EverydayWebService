@@ -65,7 +65,7 @@ namespace Everyday.Data.DataProviders
             {
                 return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
-            
+
             consumable.Item = owner;
             _ = dbContext.Add(consumable);
 
@@ -83,7 +83,7 @@ namespace Everyday.Data.DataProviders
         {
             Consumable consumable = await dbContext.Consumables
                                             .Include(e => e.Item)
-                                                .FirstOrDefaultAsync(e => e.Id == updatedItem.Id);
+                                                .FirstOrDefaultAsync(e => e.ItemId == updatedItem.ItemId);
 
             if (consumable is null)
             {
