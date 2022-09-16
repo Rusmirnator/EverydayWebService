@@ -77,7 +77,7 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.UpdateConsumableAsync(updatedConsumable);
 
-            return new ConsumableModel(res.Result as Consumable);
+            return new ConsumableModel(res?.Result as Consumable);
         }
         #endregion
 
