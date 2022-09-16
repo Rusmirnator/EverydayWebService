@@ -50,9 +50,9 @@ namespace Everyday.API
             services.AddControllers()
                     .AddNewtonsoftJson(options => 
                     {
-                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Include;
+                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                         options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     });
 
             services.AddSwaggerGen(c =>
