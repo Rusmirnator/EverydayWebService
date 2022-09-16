@@ -68,7 +68,12 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.AddConsumableAsync(newConsumable);
 
-            return new ConsumableModel(res?.Result as Consumable);
+            if (res?.Result is not null)
+            {
+                return new ConsumableModel(res.Result as Consumable);
+            }
+
+            return res;
         }
         #endregion
 
@@ -77,7 +82,12 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.UpdateConsumableAsync(updatedConsumable);
 
-            return new ConsumableModel(res?.Result as Consumable);
+            if (res?.Result is not null)
+            {
+                return new ConsumableModel(res.Result as Consumable);
+            }
+
+            return res;
         }
         #endregion
 
@@ -86,14 +96,24 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.DeleteConsumableAsync(id);
 
-            return new ConsumableModel(res.Result as Consumable);
+            if (res?.Result is not null)
+            {
+                return new ConsumableModel(res.Result as Consumable);
+            }
+
+            return res;
         }
 
         public async Task<IConveyOperationResult> DeleteConsumableAsync(string itemCode)
         {
             IConveyOperationResult res = await dataProvider.DeleteConsumableAsync(itemCode);
 
-            return new ConsumableModel(res.Result as Consumable);
+            if (res?.Result is not null)
+            {
+                return new ConsumableModel(res.Result as Consumable);
+            }
+
+            return res;
         }
         #endregion
     }

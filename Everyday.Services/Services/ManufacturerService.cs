@@ -55,7 +55,12 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.CreateManufacturerAsync(newManufacturer);
 
-            return new ManufacturerModel(res.Result as Manufacturer);
+            if (res?.Result is not null)
+            {
+                return new ManufacturerModel(res.Result as Manufacturer);
+            }
+
+            return res;
         }
         #endregion
 
@@ -64,7 +69,12 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.UpdateManufacturerAsync(updatedManufacturer);
 
-            return new ManufacturerModel(res.Result as Manufacturer);
+            if (res?.Result is not null)
+            {
+                return new ManufacturerModel(res.Result as Manufacturer);
+            }
+
+            return res;
         }
         #endregion
 
@@ -73,7 +83,12 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult res = await dataProvider.DeleteManufacturerAsync(id);
 
-            return new ManufacturerModel(res.Result as Manufacturer);
+            if (res?.Result is not null)
+            {
+                return new ManufacturerModel(res.Result as Manufacturer);
+            }
+
+            return res;
         }
         #endregion
     }

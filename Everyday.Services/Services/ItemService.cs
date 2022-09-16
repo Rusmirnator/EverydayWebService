@@ -65,7 +65,10 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult response = await itemDataProvider.AddItemAsync(newItem);
 
-            response.Result = new ItemModel(response.Result as Item);
+            if (response?.Result is not null)
+            {
+                return new ItemModel(response.Result as Item);
+            }
 
             return response;
         }
@@ -76,7 +79,10 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult response = await itemDataProvider.UpdateItemAsync(updatedItem);
 
-            response.Result = new ItemModel(response.Result as Item);
+            if (response?.Result is not null)
+            {
+                return new ItemModel(response.Result as Item);
+            }
 
             return response;
         }
@@ -87,7 +93,10 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult response = await itemDataProvider.DeleteItemAsync(id);
 
-            response.Result = new ItemModel(response.Result as Item);
+            if (response?.Result is not null)
+            {
+                return new ItemModel(response.Result as Item);
+            }
 
             return response;
         }
@@ -96,7 +105,10 @@ namespace Everyday.Services.Services
         {
             IConveyOperationResult response = await itemDataProvider.DeleteItemAsync(code);
 
-            response.Result = new ItemModel(response.Result as Item);
+            if (response?.Result is not null)
+            {
+                return new ItemModel(response.Result as Item);
+            }
 
             return response;
         }
