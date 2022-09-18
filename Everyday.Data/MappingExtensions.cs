@@ -37,9 +37,8 @@ namespace Everyday.Data
                 item.Manufacturer = dto.Manufacturer.ToEntity();
             }
 
-            if (dto.Manufacturer.Id > 0)
+            if (dto?.Manufacturer?.Id > 0)
             {
-                item.Manufacturer = new();
                 item.Manufacturer.Sync(dto.Manufacturer);
             }
 
