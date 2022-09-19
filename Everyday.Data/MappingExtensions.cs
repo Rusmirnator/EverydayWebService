@@ -1,5 +1,6 @@
 ﻿using Everyday.Core.EntitiesPg;
 using Everyday.Core.Models;
+using System.Diagnostics.Tracing;
 
 namespace Everyday.Data
 {
@@ -39,7 +40,7 @@ namespace Everyday.Data
 
             if (dto?.Manufacturer?.Id > 0)
             {
-                item.Manufacturer.Sync(dto.Manufacturer);
+                item.ManufacturerId = dto.Manufacturer.Id;
             }
 
             return item;
@@ -145,7 +146,7 @@ namespace Everyday.Data
             source.Weight = dto.Weight;
             source.Price = dto.Price;
             source.ItemDefinition.Sync(dto.ItemDefinition);
-            source.Manufacturer.Sync(dto.Manufacturer);
+            source.Manufacturer = dto.Manufacturer.ToEntity();
 
             return source;
         }
