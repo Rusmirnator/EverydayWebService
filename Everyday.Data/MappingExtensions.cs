@@ -146,7 +146,18 @@ namespace Everyday.Data
             source.Weight = dto.Weight;
             source.Price = dto.Price;
             source.ItemDefinition.Sync(dto.ItemDefinition);
-            source.Manufacturer = dto.Manufacturer.ToEntity();
+
+            if (dto?.Manufacturer?.Id == 0)
+            {
+                source.Manufacturer = new();
+                source.Manufacturer = dto.Manufacturer.ToEntity();
+            }
+
+            if (dto?.Manufacturer?.Id > 0)
+            {
+                source.Manufacturer = null;
+                source.ManufacturerId = dto.Manufacturer.Id;
+            }
 
             return source;
         }
