@@ -156,7 +156,6 @@ namespace Everyday.Data
             if (dto?.Manufacturer?.Id > 0)
             {
                 source.Manufacturer.Sync(dto.Manufacturer);
-                source.Manufacturer.Id = dto.Manufacturer.Id;
                 source.ManufacturerId = dto.Manufacturer.Id;
             }
 
