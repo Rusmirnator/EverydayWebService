@@ -10,8 +10,8 @@ namespace Everyday.Data.Interfaces
     {
         public Task<Manufacturer> GetManufacturerByNameAsync(string name);
         public Task<IEnumerable<Manufacturer>> GetManufacturersAsync();
-        public Task<IConveyOperationResult> CreateManufacturerAsync(ManufacturerDTO newManufacturer);
-        public Task<IConveyOperationResult> UpdateManufacturerAsync(ManufacturerDTO updatedManufacturer);
+        public Task<IConveyOperationResult> CreateManufacturerAsync(ManufacturerModel newManufacturer);
+        public Task<IConveyOperationResult> UpdateManufacturerAsync(ManufacturerModel updatedManufacturer);
         public Task<IConveyOperationResult> DeleteManufacturerAsync(int id);
     }
 }

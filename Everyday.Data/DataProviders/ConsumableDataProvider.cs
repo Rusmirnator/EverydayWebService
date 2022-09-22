@@ -4,6 +4,7 @@ using Everyday.Core.Models;
 using Everyday.Data.DataSource;
 using Everyday.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,12 +15,14 @@ namespace Everyday.Data.DataProviders
     {
         #region Fields & Properties
         private readonly EverydayContext dbContext;
+        private readonly ILogger<ConsumableDataProvider> logger;
         #endregion
 
         #region CTOR 
-        public ConsumableDataProvider(EverydayContext dbContext)
+        public ConsumableDataProvider(EverydayContext dbContext, ILogger<ConsumableDataProvider> logger)
         {
             this.dbContext = dbContext;
+            this.logger = logger;
         }
         #endregion
 
@@ -47,18 +50,18 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> AddConsumableAsync(ConsumableDTO newConsumable)
+        public async Task<IConveyOperationResult> AddConsumableAsync(ConsumableModel newConsumable)
         {
             Consumable consumable = await dbContext.Consumables
                                             .FirstOrDefaultAsync(e => e.Id == newConsumable.Id);
 
             Item owner = await dbContext.Items
                                 .Include(e => e.Consumables)
-                                    .FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId);
+                                    .FirstOrDefaultAsync(e => e.Id == newConsumable.ItemId.GetValueOrDefault());
 
             consumable ??= newConsumable.ToEntity();
 
-            if (owner is null || owner.Consumables.Any())
+            if (owner is null || owner?.Consumables.Any() == true)
             {
                 return IConveyOperationResult.Create(-1, "Provided item is null or already has consumable!", owner);
             }
@@ -76,18 +79,18 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedItem)
+        public async Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableModel updatedItem)
         {
             Consumable consumable = await dbContext.Consumables
                                             .Include(e => e.Item)
-                                                .FirstOrDefaultAsync(e => e.Id == updatedItem.Id);
+                                                .FirstOrDefaultAsync(e => e.ItemId == updatedItem.ItemId);
 
             if (consumable is null)
             {
                 return IConveyOperationResult.Create(-1, "Consumable doesn't exist in database!");
             }
 
-            consumable.ToEntity(updatedItem);
+            consumable.Sync(updatedItem);
 
             _ = dbContext.Update(consumable);
 

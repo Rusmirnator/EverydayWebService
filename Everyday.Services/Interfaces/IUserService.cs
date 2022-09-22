@@ -5,6 +5,6 @@ namespace Everyday.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<UserDTO> GetUserAsync(string login, string password);
+        Task<UserModel> GetUserAsync(string login, string password);
     }
 }

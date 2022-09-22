@@ -52,7 +52,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region CREATE
-        public async Task<IConveyOperationResult> AddItemAsync(ItemDTO newItem)
+        public async Task<IConveyOperationResult> AddItemAsync(ItemModel newItem)
         {
             Item item = await dbContext.Items
                 .Include(e => e.ItemDefinition)
@@ -78,7 +78,7 @@ namespace Everyday.Data.DataProviders
         #endregion
 
         #region UPDATE
-        public async Task<IConveyOperationResult> UpdateItemAsync(ItemDTO updatedItem)
+        public async Task<IConveyOperationResult> UpdateItemAsync(ItemModel updatedItem)
         {
             Item item = await dbContext.Items
                 .Include(e => e.ItemDefinition)
@@ -90,7 +90,7 @@ namespace Everyday.Data.DataProviders
                 return IConveyOperationResult.Create(-1, $"There is no such item! - {updatedItem.Code}");
             }
 
-            item.ToEntity(updatedItem);
+            item.Sync(updatedItem);
 
             _ = dbContext.Update(item);
 

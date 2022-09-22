@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Everyday.Core.Models
 {
-    public class ItemDTO : DataTransferObject
+    public class ItemModel : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -18,17 +18,17 @@ namespace Everyday.Core.Models
         public double? Depth { get; set; }
         public double? Weight { get; set; }
         public double? Price { get; set; }
-        public ItemDefinitionDTO ItemDefinition { get; set; }
-        public ManufacturerDTO Manufacturer { get; set; }
+        public ItemDefinitionModel ItemDefinition { get; set; }
+        public ManufacturerModel Manufacturer { get; set; }
         #endregion
 
         #region CTOR
-        public ItemDTO()
+        public ItemModel()
         {
 
         }
 
-        public ItemDTO(Item entry) : base()
+        public ItemModel(Item entry) : base()
         {
             Id = entry.Id;
             Code = entry.Code;
@@ -39,18 +39,18 @@ namespace Everyday.Core.Models
             Depth = entry.Depth;
             Weight = entry.Weight;
             Price = entry.Price;
-            ItemDefinition = new ItemDefinitionDTO(entry.ItemDefinition);
+            ItemDefinition = new ItemDefinitionModel(entry.ItemDefinition);
             Manufacturer = InitializeManufacturer(entry.Manufacturer);
         }
         #endregion
 
-        private static ManufacturerDTO InitializeManufacturer(Manufacturer entry)
+        private static ManufacturerModel InitializeManufacturer(Manufacturer entry)
         {
             if (entry is null)
             {
                 return null;
             }
-            return new ManufacturerDTO(entry);
+            return new ManufacturerModel(entry);
         }
     }
 }

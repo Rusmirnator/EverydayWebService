@@ -22,10 +22,10 @@ namespace Everyday.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/manufacturer")]
-        public async Task<IActionResult> GetManufacturerAsync([FromRoute] string name)
+        [Route("manufacturer")]
+        public async Task<IActionResult> GetManufacturerAsync([FromQuery] string name)
         {
-            ManufacturerDTO manufacturer = await manufacturerService.GetManufacturerByNameAsync(name);
+            ManufacturerModel manufacturer = await manufacturerService.GetManufacturerByNameAsync(name);
 
             if (manufacturer is null)
             {
@@ -39,7 +39,7 @@ namespace Everyday.API.Controllers
         [Route("manufacturers")]
         public async Task<IActionResult> GetManufacturersAsync()
         {
-            IEnumerable<ManufacturerDTO> manufacturers = await manufacturerService.GetManufacturersAsync();
+            IEnumerable<ManufacturerModel> manufacturers = await manufacturerService.GetManufacturersAsync();
 
             if (!manufacturers.Any())
             {
@@ -51,7 +51,7 @@ namespace Everyday.API.Controllers
 
         [HttpPost]
         [Route("manufacturer")]
-        public async Task<IActionResult> CreateManufacturerAsync([FromBody] ManufacturerDTO newManufacturer)
+        public async Task<IActionResult> CreateManufacturerAsync([FromBody] ManufacturerModel newManufacturer)
         {
             if (!ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace Everyday.API.Controllers
 
         [HttpPut]
         [Route("manufacturer")]
-        public async Task<IActionResult> UpdateManufacturerAsync([FromBody] ManufacturerDTO updatedManufacturer)
+        public async Task<IActionResult> UpdateManufacturerAsync([FromBody] ManufacturerModel updatedManufacturer)
         {
             if (!ModelState.IsValid)
             {

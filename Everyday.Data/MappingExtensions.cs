@@ -1,5 +1,6 @@
 ﻿using Everyday.Core.EntitiesPg;
 using Everyday.Core.Models;
+using System.Diagnostics.Tracing;
 
 namespace Everyday.Data
 {
@@ -10,9 +11,9 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Item ToEntity(this ItemDTO dto)
+        public static Item ToEntity(this ItemModel dto)
         {
-            return new Item
+            Item item = new Item
             {
                 Id = dto.Id,
                 Code = dto.Code,
@@ -22,10 +23,27 @@ namespace Everyday.Data
                 Height = dto.Height,
                 Depth = dto.Depth,
                 Weight = dto.Weight,
-                Price = dto.Price,
-                ItemDefinition = dto.ItemDefinition.ToEntity(),
-                Manufacturer = dto.Manufacturer.ToEntity()
+                Price = dto.Price
             };
+
+            if (dto?.ItemDefinition?.Id == 0)
+            {
+                item.ItemDefinition = new();
+                item.ItemDefinition = dto.ItemDefinition.ToEntity();
+            }
+
+            if (dto?.Manufacturer?.Id == 0)
+            {
+                item.Manufacturer = new();
+                item.Manufacturer = dto.Manufacturer.ToEntity();
+            }
+
+            if (dto?.Manufacturer?.Id > 0)
+            {
+                item.ManufacturerId = dto.Manufacturer.Id;
+            }
+
+            return item;
         }
 
         /// <summary>
@@ -33,7 +51,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static ItemDefinition ToEntity(this ItemDefinitionDTO dto)
+        public static ItemDefinition ToEntity(this ItemDefinitionModel dto)
         {
             return new ItemDefinition
             {
@@ -50,7 +68,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Manufacturer ToEntity(this ManufacturerDTO dto)
+        public static Manufacturer ToEntity(this ManufacturerModel dto)
         {
             return new Manufacturer
             {
@@ -65,7 +83,7 @@ namespace Everyday.Data
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Consumable ToEntity(this ConsumableDTO dto)
+        public static Consumable ToEntity(this ConsumableModel dto)
         {
             return new Consumable
             {
@@ -87,7 +105,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Manufacturer ToEntity(this Manufacturer source, ManufacturerDTO dto)
+        public static Manufacturer Sync(this Manufacturer source, ManufacturerModel dto)
         {
             source.Name = dto.Name;
             source.Description = dto.Description;
@@ -101,7 +119,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static ItemDefinition ToEntity(this ItemDefinition source, ItemDefinitionDTO dto)
+        public static ItemDefinition Sync(this ItemDefinition source, ItemDefinitionModel dto)
         {
             source.DimensionsMeasureUnitId = dto.DimensionsMeasureUnitId;
             source.WeightMeasureUnitId = dto.WeightMeasureUnitId;
@@ -117,7 +135,7 @@ namespace Everyday.Data
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Item ToEntity(this Item source, ItemDTO dto)
+        public static Item Sync(this Item source, ItemModel dto)
         {
             source.Code = dto.Code;
             source.Name = dto.Name;
@@ -127,19 +145,24 @@ namespace Everyday.Data
             source.Depth = dto.Depth;
             source.Weight = dto.Weight;
             source.Price = dto.Price;
-            source.ItemDefinition.ToEntity(dto.ItemDefinition);
-            source.Manufacturer.ToEntity(dto.Manufacturer);
+            source.ItemDefinition.Sync(dto.ItemDefinition);
+
+            if (source?.Manufacturer?.Id != dto.Manufacturer.Id)
+            {
+                source.Manufacturer = new();
+                source.Manufacturer = dto.Manufacturer.ToEntity();
+            }
 
             return source;
         }
-        
+
         /// <summary>
         /// Updates calling entity using passed data transfer object.
         /// </summary>
         /// <param name="source"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static Consumable ToEntity(this Consumable source, ConsumableDTO dto)
+        public static Consumable Sync(this Consumable source, ConsumableModel dto)
         {
             source.Protein = dto.Protein;
             source.Carbohydrates = dto.Carbohydrates;

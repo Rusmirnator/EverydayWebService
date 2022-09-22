@@ -3,7 +3,7 @@ using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ItemDefinitionDTO : DataTransferObject
+    public class ItemDefinitionModel : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -14,11 +14,11 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ItemDefinitionDTO()
+        public ItemDefinitionModel()
         {
 
         }
-        public ItemDefinitionDTO(ItemDefinition entry) : base()
+        public ItemDefinitionModel(ItemDefinition entry) : base()
         {
             Id = entry.Id;
             DimensionsMeasureUnitId = entry.DimensionsMeasureUnitId;

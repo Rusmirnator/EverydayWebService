@@ -25,7 +25,7 @@ namespace Everyday.API.Controllers
         [Route("{id}/item")]
         public async Task<IActionResult> GetItemByIdAsync([FromRoute] int id)
         {
-            ItemDTO item = await itemService.GetItemByIdAsync(id);
+            ItemModel item = await itemService.GetItemByIdAsync(id);
 
             if (item is null)
             {
@@ -39,7 +39,7 @@ namespace Everyday.API.Controllers
         [Route("item")]
         public async Task<IActionResult> GetItemByIdAsync([FromQuery] string code)
         {
-            ItemDTO item = await itemService.GetItemByCodeAsync(code);
+            ItemModel item = await itemService.GetItemByCodeAsync(code);
 
             if (item is null)
             {
@@ -53,7 +53,7 @@ namespace Everyday.API.Controllers
         [Route("items")]
         public async Task<IActionResult> GetItemsAsync()
         {
-            IEnumerable<ItemDTO> items = await itemService.GetItemsAsync();
+            IEnumerable<ItemModel> items = await itemService.GetItemsAsync();
 
             if (!items.Any())
             {
@@ -65,7 +65,7 @@ namespace Everyday.API.Controllers
 
         [HttpPost]
         [Route("item")]
-        public async Task<IActionResult> CreateItemAsync([FromBody] ItemDTO newItem)
+        public async Task<IActionResult> CreateItemAsync([FromBody] ItemModel newItem)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Everyday.API.Controllers
 
         [HttpPut]
         [Route("item")]
-        public async Task<IActionResult> UpdateItemAsync([FromBody] ItemDTO updatedItem)
+        public async Task<IActionResult> UpdateItemAsync([FromBody] ItemModel updatedItem)
         {
             if (!ModelState.IsValid)
             {

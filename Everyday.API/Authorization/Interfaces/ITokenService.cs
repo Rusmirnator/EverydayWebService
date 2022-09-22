@@ -4,7 +4,7 @@ namespace Everyday.API.Authorization.Interfaces
 {
     public interface ITokenService
     {
-        string BuildToken(string key, string issuer, string audience, UserDTO user);
+        string BuildToken(string key, string issuer, string audience, UserModel user);
         bool ValidateToken(string key, string issuer, string audience, string token);
     }
 }

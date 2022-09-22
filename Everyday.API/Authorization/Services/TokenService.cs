@@ -13,7 +13,7 @@ namespace Everyday.API.Authorization.Services
     {
         private const double EXPIRY_DURATION_MINUTES = 480;
 
-        public string BuildToken(string key, string issuer, string audience, UserDTO user)
+        public string BuildToken(string key, string issuer, string audience, UserModel user)
         {
             List<Claim> claims = new()
             {

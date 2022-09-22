@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Everyday.Core.Models
 {
-    public class UserDTO : DataTransferObject
+    public class UserModel : DataTransferObject
     {
-        public UserDTO(User userEntry) : base()
+        public UserModel(User userEntry) : base()
         {
             Login = userEntry.Login;
             Roles = new();

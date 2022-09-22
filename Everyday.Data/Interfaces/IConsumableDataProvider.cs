@@ -11,8 +11,8 @@ namespace Everyday.Data.Interfaces
         public Task<IEnumerable<Consumable>> GetConsumablesAsync();
         public Task<Consumable> GetConsumableByItemIdAsync(int itemId);
         public Task<Consumable> GetConsumableByItemCodeAsync(string itemCode);
-        public Task<IConveyOperationResult> AddConsumableAsync(ConsumableDTO newConsumable);
-        public Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableDTO updatedConsumable);
+        public Task<IConveyOperationResult> AddConsumableAsync(ConsumableModel newConsumable);
+        public Task<IConveyOperationResult> UpdateConsumableAsync(ConsumableModel updatedConsumable);
         public Task<IConveyOperationResult> DeleteConsumableAsync(int id);
         public Task<IConveyOperationResult> DeleteConsumableAsync(string itemCode);
     }

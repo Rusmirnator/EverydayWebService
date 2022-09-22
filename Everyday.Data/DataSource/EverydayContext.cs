@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 using Everyday.Core.EntitiesPg;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,7 @@ namespace Everyday.Data.DataSource
         }
 
         public EverydayContext(DbContextOptions<EverydayContext> options)
-            : base(options)
-        {
-
-        }
+            : base(options) { }
 
         public virtual DbSet<Consumable> Consumables { get; set; }
         public virtual DbSet<Container> Containers { get; set; }
@@ -36,7 +34,10 @@ namespace Everyday.Data.DataSource
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")));
+                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")), options =>
+                    {
+                        options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                    });
             }
         }
 

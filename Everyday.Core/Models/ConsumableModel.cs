@@ -3,7 +3,7 @@ using Everyday.Core.Shared;
 
 namespace Everyday.Core.Models
 {
-    public class ConsumableDTO : DataTransferObject
+    public class ConsumableModel : DataTransferObject
     {
         #region Fields & Properties
         public int Id { get; set; }
@@ -19,11 +19,11 @@ namespace Everyday.Core.Models
         #endregion
 
         #region CTOR
-        public ConsumableDTO()
+        public ConsumableModel()
         {
 
         }
-        public ConsumableDTO(Consumable entry) : base()
+        public ConsumableModel(Consumable entry) : base()
         {
             Id = entry.Id;
             Protein = entry.Protein;
