@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Everyday.Core.Interfaces
+﻿namespace Everyday.Core.Interfaces
 {
     /// <summary>
     /// Special wrapper used to expand HttpResponseMessage content in some cases.
