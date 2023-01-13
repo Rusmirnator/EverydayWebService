@@ -34,7 +34,7 @@ namespace Everyday.Data.DataSource
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_")), options =>
+                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")), options =>
                     {
                         options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                     });
