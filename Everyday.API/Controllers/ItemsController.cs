@@ -1,10 +1,5 @@
-﻿using Everyday.Core.Interfaces;
-using Everyday.Core.Models;
-using Everyday.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Everyday.API.Controllers
@@ -14,119 +9,63 @@ namespace Everyday.API.Controllers
     [Authorize]
     public class ItemsController : ControllerBase
     {
-        private readonly IItemService itemService;
-
-        public ItemsController(IItemService itemService)
-        {
-            this.itemService = itemService;
-        }
-
         [HttpGet]
         [Route("{id}/item")]
         public async Task<IActionResult> GetItemByIdAsync([FromRoute] int id)
         {
-            ItemModel item = await itemService.GetItemByIdAsync(id);
-
-            if (item is null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(item);
+            return Ok();
         }
 
         [HttpGet]
         [Route("item")]
         public async Task<IActionResult> GetItemByIdAsync([FromQuery] string code)
         {
-            ItemModel item = await itemService.GetItemByCodeAsync(code);
-
-            if (item is null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(item);
+            return Ok();
         }
 
         [HttpGet]
         [Route("items")]
         public async Task<IActionResult> GetItemsAsync()
         {
-            IEnumerable<ItemModel> items = await itemService.GetItemsAsync();
-
-            if (!items.Any())
-            {
-                return BadRequest();
-            }
-
-            return Ok(items);
+            return Ok();
         }
 
         [HttpPost]
         [Route("item")]
-        public async Task<IActionResult> CreateItemAsync([FromBody] ItemModel newItem)
+        public async Task<IActionResult> CreateItemAsync([FromBody] object newItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IConveyOperationResult res = await itemService.CreateItemAsync(newItem);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
 
         [HttpPut]
         [Route("item")]
-        public async Task<IActionResult> UpdateItemAsync([FromBody] ItemModel updatedItem)
+        public async Task<IActionResult> UpdateItemAsync([FromBody] object updatedItem)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IConveyOperationResult res = await itemService.UpdateItemAsync(updatedItem);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{id}/item")]
         public async Task<IActionResult> DeleteItemAsync([FromRoute] int id)
         {
-            IConveyOperationResult res = await itemService.DeleteItemAsync(id);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{code}/item")]
         public async Task<IActionResult> DeleteItemAsync([FromRoute] string code)
         {
-            IConveyOperationResult res = await itemService.DeleteItemAsync(code);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using Everyday.Core.EntitiesPg;
-using Everyday.Core.Interfaces;
-using Everyday.Core.Models;
-using Everyday.Data.DataSource;
-using Everyday.Data.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Everyday.Data.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

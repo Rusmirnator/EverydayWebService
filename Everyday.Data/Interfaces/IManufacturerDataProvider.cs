@@ -1,7 +1,4 @@
-﻿using Everyday.Core.EntitiesPg;
-using Everyday.Core.Interfaces;
-using Everyday.Core.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Everyday.Data.Interfaces

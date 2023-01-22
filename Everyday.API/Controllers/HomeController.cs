@@ -1,10 +1,7 @@
 ﻿using Everyday.API.Authorization.Interfaces;
-using Everyday.Core.Models;
-using Everyday.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Threading.Tasks;
 
 namespace Everyday.API.Controllers
@@ -14,13 +11,11 @@ namespace Everyday.API.Controllers
     public class HomeController : ControllerBase
     {
         private readonly IConfiguration config;
-        private readonly IUserService userService;
         private readonly ITokenService tokenService;
 
-        public HomeController(IConfiguration config, IUserService userService, ITokenService tokenService)
+        public HomeController(IConfiguration config,ITokenService tokenService)
         {
             this.config = config;
-            this.userService = userService;
             this.tokenService = tokenService;
         }
 
@@ -34,19 +29,19 @@ namespace Everyday.API.Controllers
                 return StatusCode(400, "Provided login or password has invalid format or is empty!");
             }
 
-            UserModel validUser = await userService.GetUserAsync(login, password);
+            //UserModel validUser = await userService.GetUserAsync(login, password);
 
-            if (validUser is not null)
-            {
-                string generatedToken = tokenService
-                    .BuildToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
+            //if (validUser is not null)
+            //{
+            //    string generatedToken = tokenService
+            //        .BuildToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
 
-                if (generatedToken != null && tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
-                {
-                    return Ok(generatedToken);
-                }
-                return StatusCode(500, "Created JWT is invalid!");
-            }
+            //    if (generatedToken != null && tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
+            //    {
+            //        return Ok(generatedToken);
+            //    }
+            //    return StatusCode(500, "Created JWT is invalid!");
+            //}
             return StatusCode(401, $"Provided login or password is invalid!");
         }
     }

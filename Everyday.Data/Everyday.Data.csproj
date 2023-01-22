@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Everyday.Core\Everyday.Core.csproj" />
+    <Folder Include="DataSource\" />
   </ItemGroup>
 
 </Project>

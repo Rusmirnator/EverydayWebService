@@ -1,20 +1,34 @@
+using Everyday.API.Authorization.Interfaces;
+using Everyday.API.Authorization.Services;
+using Everyday.API.Middleware;
+using Everyday.Application.Common.Interfaces;
+using Everyday.Infrastructure.Common.Services;
+using Everyday.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
-using System.Net.Sockets;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Everyday.API
 {
     public class Program
     {
+        public IConfiguration Configuration { get; }
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
             .ConfigureLogging(logging =>
             {
                 logging.ClearProviders();
@@ -22,28 +36,68 @@ namespace Everyday.API
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder
-#if DEBUG
-                    .UseUrls(BuildHostingUrls())
-#endif
-                        .UseStartup<Startup>();
+                webBuilder.Build();
             });
+        }
 
-        private static string[] BuildHostingUrls()
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            string[] hostingUrls = new string[2];
+            services.AddSession()
+                    .AddDistributedMemoryCache()
+                    .AddDbContext<EverydayContext>()
+                    .AddScoped<ICryptographyService, CryptographyService>()
+                    .AddScoped<ITokenService, TokenService>();
 
-            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            services.AddControllers()
+                    .AddNewtonsoftJson(options =>
+                    {
+                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                        options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                socket.Connect("8.8.8.8", 65530);
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Jwt:Audience"],
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                };
+            });
+        }
 
-                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
-
-                hostingUrls[0] = string.Concat("https://", endPoint.Address, ":", "5001");
-                hostingUrls[1] = string.Concat("http://", endPoint.Address, ":", "5000");
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseHttpsRedirection();
             }
 
-            return hostingUrls;
+            app.UseMiddleware<ErrorHandler>();
+
+            app.UseAuthentication();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
         }
     }
 }

@@ -22,6 +22,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Base\**" />
+    <Content Remove="Base\**" />
+    <EmbeddedResource Remove="Base\**" />
+    <None Remove="Base\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Properties\_launchSettings.json" />
   </ItemGroup>
 
@@ -33,12 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Everyday.Core\Everyday.Core.csproj" />
-    <ProjectReference Include="..\Everyday.Services\Everyday.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Base\" />
+    <ProjectReference Include="..\Everyday.Application\Everyday.Application.csproj" />
+    <ProjectReference Include="..\Everyday.Infrastructure\Everyday.Infrastructure.csproj" />
+    <ProjectReference Include="..\Everyday.Persistence\Everyday.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

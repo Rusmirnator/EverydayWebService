@@ -1,10 +1,5 @@
-using Everyday.Core.Interfaces;
-using Everyday.Core.Models;
-using Everyday.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Everyday.API.Controllers
@@ -14,91 +9,49 @@ namespace Everyday.API.Controllers
     [Authorize]
     public class ManufacturersController : ControllerBase
     {
-        private readonly IManufacturerService manufacturerService;
-
-        public ManufacturersController(IManufacturerService manufacturerService)
-        {
-            this.manufacturerService = manufacturerService;
-        }
-
         [HttpGet]
         [Route("manufacturer")]
         public async Task<IActionResult> GetManufacturerAsync([FromQuery] string name)
         {
-            ManufacturerModel manufacturer = await manufacturerService.GetManufacturerByNameAsync(name);
-
-            if (manufacturer is null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(manufacturer);
+            return Ok();
         }
 
         [HttpGet]
         [Route("manufacturers")]
         public async Task<IActionResult> GetManufacturersAsync()
         {
-            IEnumerable<ManufacturerModel> manufacturers = await manufacturerService.GetManufacturersAsync();
-
-            if (!manufacturers.Any())
-            {
-                return BadRequest();
-            }
-
-            return Ok(manufacturers);
+            return Ok();
         }
 
         [HttpPost]
         [Route("manufacturer")]
-        public async Task<IActionResult> CreateManufacturerAsync([FromBody] ManufacturerModel newManufacturer)
+        public async Task<IActionResult> CreateManufacturerAsync([FromBody] object newManufacturer)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IConveyOperationResult res = await manufacturerService.CreateManufacturerAsync(newManufacturer);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
 
         [HttpPut]
         [Route("manufacturer")]
-        public async Task<IActionResult> UpdateManufacturerAsync([FromBody] ManufacturerModel updatedManufacturer)
+        public async Task<IActionResult> UpdateManufacturerAsync([FromBody] object updatedManufacturer)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            IConveyOperationResult res = await manufacturerService.UpdateManufacturerAsync(updatedManufacturer);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{id}/manufacturer")]
         public async Task<IActionResult> DeleteManufacturerAsync([FromRoute] int id)
         {
-            IConveyOperationResult res = await manufacturerService.DeleteManufacturerAsync(id);
-
-            if (res.StatusCode != 0)
-            {
-                return BadRequest(res);
-            }
-
-            return Ok(res);
+            return Ok();
         }
     }
 }

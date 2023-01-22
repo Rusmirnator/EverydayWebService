@@ -1,10 +1,7 @@
-﻿using Everyday.Core.EntitiesPg;
-using Everyday.Data.Interfaces;
+﻿using Everyday.Data.Interfaces;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using Everyday.Data.DataSource;
 
 namespace Everyday.Data.DataProviders
 {
