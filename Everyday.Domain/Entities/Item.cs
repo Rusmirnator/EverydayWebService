@@ -2,8 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("items")]
@@ -24,14 +22,14 @@ namespace Everyday.Domain.Entities
         public DateTime CreateDT { get; set; }
         [Column("code")]
         [StringLength(254)]
-        public string Code { get; set; }
+        public string? Code { get; set; }
         [Required]
         [Column("name")]
         [StringLength(254)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [Column("description")]
         [StringLength(254)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Column("width")]
         public double? Width { get; set; }
         [Column("height")]
@@ -49,10 +47,10 @@ namespace Everyday.Domain.Entities
 
         [ForeignKey(nameof(ItemDefinitionId))]
         [InverseProperty("Items")]
-        public virtual ItemDefinition ItemDefinition { get; set; }
+        public virtual ItemDefinition? ItemDefinition { get; set; }
         [ForeignKey(nameof(ManufacturerId))]
         [InverseProperty("Items")]
-        public virtual Manufacturer Manufacturer { get; set; }
+        public virtual Manufacturer? Manufacturer { get; set; }
         [InverseProperty(nameof(Consumable.Item))]
         public virtual ICollection<Consumable> Consumables { get; set; }
         [InverseProperty(nameof(Container.Item))]

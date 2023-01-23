@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("dictionaries")]
-    public partial class Dictionary
+    public class Dictionary
     {
         [Key]
         [Column("id")]
@@ -15,12 +13,12 @@ namespace Everyday.Domain.Entities
         public int CategoryId { get; set; }
         [Column("description")]
         [StringLength(254)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Column("value")]
         public int Value { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         [InverseProperty(nameof(DictionaryCategory.Dictionaries))]
-        public virtual DictionaryCategory Category { get; set; }
+        public virtual DictionaryCategory? Category { get; set; }
     }
 }

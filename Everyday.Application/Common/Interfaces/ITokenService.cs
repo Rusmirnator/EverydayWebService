@@ -1,4 +1,4 @@
-﻿namespace Everyday.API.Authorization.Interfaces
+﻿namespace Everyday.Application.Common.Interfaces
 {
     public interface ITokenService
     {

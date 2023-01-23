@@ -34,7 +34,7 @@ namespace Everyday.Infrastructure.Common.Services
         /// </summary>
         /// <param name="text">Ciąg znaków do zaszyfrowania</param>
         /// <returns></returns>
-        public string GetSHA256Digest(string text)
+        public string CreateDigest(string text)
         {
             using SHA256 sha256Hash = SHA256.Create();
             byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(text));

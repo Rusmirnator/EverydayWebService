@@ -2,8 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("users")]
@@ -18,10 +16,10 @@ namespace Everyday.Domain.Entities
         [Required]
         [Column("login")]
         [StringLength(50)]
-        public string Login { get; set; }
+        public string? Login { get; set; }
         [Required]
         [Column("password")]
         [StringLength(254)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }

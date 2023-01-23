@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("consumables")]
-    public partial class Consumable
+    public class Consumable
     {
         [Key]
         [Column("id")]
@@ -34,6 +32,6 @@ namespace Everyday.Domain.Entities
 
         [ForeignKey(nameof(ItemId))]
         [InverseProperty("Consumables")]
-        public virtual Item Item { get; set; }
+        public virtual Item? Item { get; set; }
     }
 }

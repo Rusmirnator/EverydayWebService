@@ -33,8 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.13" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
@@ -43,6 +41,11 @@
     <ProjectReference Include="..\Everyday.Application\Everyday.Application.csproj" />
     <ProjectReference Include="..\Everyday.Infrastructure\Everyday.Infrastructure.csproj" />
     <ProjectReference Include="..\Everyday.Persistence\Everyday.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Authorization\Interfaces\" />
+    <Folder Include="Authorization\Services\" />
   </ItemGroup>
 
 </Project>

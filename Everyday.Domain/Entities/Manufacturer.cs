@@ -2,8 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("manufacturers")]
@@ -23,10 +21,10 @@ namespace Everyday.Domain.Entities
         [Required]
         [Column("name")]
         [StringLength(254)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [Column("description")]
         [StringLength(254)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [InverseProperty(nameof(Item.Manufacturer))]
         public virtual ICollection<Item> Items { get; set; }

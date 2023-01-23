@@ -1,10 +1,13 @@
-﻿namespace Everyday.Application.Common.Interfaces
+﻿using Everyday.Domain.Enums;
+using System.Security;
+
+namespace Everyday.Application.Common.Interfaces
 {
     public interface ICryptographyService
     {
-        public string AESKey { get; }
+        public SecureString AESKey { get; }
         public string Encrypt(string rawText);
         public string Decrypt(string encodedText);
-        public string GetSHA256Digest(string text);
+        public string CreateDigest(HashingAlgorithm algorithm, string text);
     }
 }

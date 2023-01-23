@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("existingitems")]
@@ -20,6 +18,6 @@ namespace Everyday.Domain.Entities
 
         [ForeignKey(nameof(ItemId))]
         [InverseProperty("ExistingItems")]
-        public virtual Item Item { get; set; }
+        public virtual Item? Item { get; set; }
     }
 }

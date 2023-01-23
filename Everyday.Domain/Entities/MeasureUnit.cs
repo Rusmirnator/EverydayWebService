@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
 namespace Everyday.Domain.Entities
 {
     [Table("measureunits")]
@@ -16,10 +14,10 @@ namespace Everyday.Domain.Entities
         [Required]
         [Column("signature")]
         [StringLength(5)]
-        public string Signature { get; set; }
+        public string? Signature { get; set; }
         [Required]
         [Column("name")]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

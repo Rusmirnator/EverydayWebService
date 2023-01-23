@@ -1,5 +1,3 @@
-using Everyday.API.Authorization.Interfaces;
-using Everyday.API.Authorization.Services;
 using Everyday.API.Middleware;
 using Everyday.Application.Common.Interfaces;
 using Everyday.Infrastructure.Common.Services;
