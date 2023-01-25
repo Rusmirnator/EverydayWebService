@@ -43,9 +43,4 @@
     <ProjectReference Include="..\Everyday.Persistence\Everyday.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Authorization\Interfaces\" />
-    <Folder Include="Authorization\Services\" />
-  </ItemGroup>
-
 </Project>

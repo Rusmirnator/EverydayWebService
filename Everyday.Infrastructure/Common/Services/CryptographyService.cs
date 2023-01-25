@@ -1,5 +1,7 @@
-﻿using Everyday.Application.Common.Interfaces;
+﻿using Everyday.Application.Common.Interfaces.Services;
 using Everyday.Domain.Enums;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -8,13 +10,18 @@ namespace Everyday.Infrastructure.Common.Services
     public class CryptographyService : ICryptographyService
     {
         #region Fields && Properties
+        private readonly IConfiguration config;
+        private readonly ILogger<CryptographyService> logger;
+
         public string AESKey { get; }
         #endregion
 
         #region CTOR
-        public CryptographyService()
+        public CryptographyService(IConfiguration config, ILogger<CryptographyService> logger)
         {
-            //AESKey = this.config["Encryption:AESKey"];
+            this.config = config;
+            this.logger = logger;
+            AESKey = this.config["Encryption:AESKey"];
         }
         #endregion
 
@@ -34,7 +41,7 @@ namespace Everyday.Infrastructure.Common.Services
         /// </summary>
         /// <param name="text">Ciąg znaków do zaszyfrowania</param>
         /// <returns></returns>
-        public string CreateDigest(string text)
+        public string CreateShaDigest(string text)
         {
             using SHA256 sha256Hash = SHA256.Create();
             byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(text));
@@ -233,7 +240,7 @@ namespace Everyday.Infrastructure.Common.Services
             }
             catch (Exception ex)
             {
-
+                logger.LogError(ex.Message);
             }
             return keybytes;
         }

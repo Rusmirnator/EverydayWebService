@@ -1,4 +1,4 @@
-﻿using Everyday.Application.Common.Interfaces;
+﻿using Everyday.Application.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

@@ -1,7 +1,6 @@
-﻿using Everyday.Application.Common.Interfaces;
+﻿using Everyday.Application.Common.Interfaces.Services;
+using Everyday.Application.Common.Models;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,18 +11,18 @@ namespace Everyday.Infrastructure.Common.Services
     {
         private const double EXPIRY_DURATION_MINUTES = 480;
 
-        public string BuildToken(string key, string issuer, string audience, object user)
+        public string BuildToken(string key, string issuer, string audience, UserResponseModel user)
         {
             List<Claim> claims = new()
             {
-                //new Claim(ClaimTypes.Name, user.Login),
-                //new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
             };
 
-            //foreach (string role in user.Roles)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, role));
-            //}
+            foreach (string role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(key));
             SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256Signature);

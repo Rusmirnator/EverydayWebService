@@ -1,5 +1,5 @@
 using Everyday.API.Middleware;
-using Everyday.Application.Common.Interfaces;
+using Everyday.Application.Common.Interfaces.Services;
 using Everyday.Infrastructure.Common.Services;
 using Everyday.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,7 +79,7 @@ namespace Everyday.API
                 app.UseHttpsRedirection();
             }
 
-            app.UseMiddleware<ErrorHandler>();
+            app.UseMiddleware<ErrorHandlingMeddleware>();
 
             app.UseAuthentication();
 

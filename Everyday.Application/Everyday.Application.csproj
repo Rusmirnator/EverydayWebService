@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Everyday.Domain\Everyday.Domain.csproj" />
   </ItemGroup>
 
