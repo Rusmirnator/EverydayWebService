@@ -43,7 +43,7 @@ namespace Everyday.API
         {
             services.AddSession()
                     .AddDistributedMemoryCache()
-                    .AddDbContext<EverydayContext>()
+                    .AddPersistenceServices()
                     .AddScoped<ICryptographyService, CryptographyService>()
                     .AddScoped<ITokenService, TokenService>();
 
