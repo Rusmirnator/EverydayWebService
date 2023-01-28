@@ -6,18 +6,13 @@ namespace Everyday.Domain.Entities
 {
     [Table("dictionarycategories")]
     [Index(nameof(Name), Name = "dictionarycategories_name_key", IsUnique = true)]
-    public class DictionaryCategory
+    public class DictionaryCategory : EntityBase
     {
         public DictionaryCategory()
         {
             Dictionaries = new HashSet<Dictionary>();
         }
 
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Required]
         [Column("name")]
         [StringLength(50)]

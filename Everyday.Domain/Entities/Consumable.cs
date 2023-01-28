@@ -1,16 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Everyday.Domain.Entities
 {
     [Table("consumables")]
-    public class Consumable
+    public class Consumable : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Column("protein")]
         public double? Protein { get; set; }
         [Column("carbohydrates")]

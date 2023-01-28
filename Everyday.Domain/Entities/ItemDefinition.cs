@@ -1,21 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Everyday.Domain.Entities
 {
     [Table("itemdefinitions")]
-    public partial class ItemDefinition
+    public class ItemDefinition : EntityBase
     {
         public ItemDefinition()
         {
             Items = new HashSet<Item>();
         }
 
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Column("dimensionsmeasureunitid")]
         public int DimensionsMeasureUnitId { get; set; }
         [Column("weightmeasureunitid")]

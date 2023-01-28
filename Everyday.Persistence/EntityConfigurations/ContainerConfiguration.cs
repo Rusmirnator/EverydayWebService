@@ -10,7 +10,7 @@ namespace Everyday.Persistence.EntityConfigurations
         {
             builder.Property(e => e.Id).UseIdentityAlwaysColumn();
 
-            builder.Property(e => e.CreateDT).HasDefaultValue(DateTime.Now);
+            builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.Now);
 
             builder.HasOne(d => d.Item)
                 .WithMany(p => p.Containers)

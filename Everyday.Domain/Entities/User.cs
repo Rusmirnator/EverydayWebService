@@ -6,13 +6,8 @@ namespace Everyday.Domain.Entities
 {
     [Table("users")]
     [Index(nameof(Login), Name = "users_login_key", IsUnique = true)]
-    public partial class User
+    public class User : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Required]
         [Column("login")]
         [StringLength(50)]

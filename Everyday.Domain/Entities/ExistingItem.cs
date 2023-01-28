@@ -1,16 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Everyday.Domain.Entities
 {
     [Table("existingitems")]
-    public partial class ExistingItem
+    public class ExistingItem : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Column("itemid")]
         public int ItemId { get; set; }
         [Column("qty")]

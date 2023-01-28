@@ -1,4 +1,4 @@
-﻿namespace Everyday.Domain.Enums
+﻿namespace Everyday.Infrastructure.Enums
 {
     public enum AesType
     {

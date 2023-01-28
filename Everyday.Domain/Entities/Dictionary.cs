@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Everyday.Domain.Entities
 {
     [Table("dictionaries")]
-    public class Dictionary
+    public class Dictionary : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
         [Column("categoryid")]
         public int CategoryId { get; set; }
         [Column("description")]

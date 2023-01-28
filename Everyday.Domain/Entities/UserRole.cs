@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Everyday.Domain.Entities
 {
     [Table("userroles")]
-    public partial class UserRole
+    public class UserRole : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
         [Column("userid")]
         public int UserId { get; set; }
         [Column("roleid")]

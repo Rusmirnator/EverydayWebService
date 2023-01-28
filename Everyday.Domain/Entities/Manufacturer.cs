@@ -6,18 +6,13 @@ namespace Everyday.Domain.Entities
 {
     [Table("manufacturers")]
     [Index(nameof(Name), Name = "manufacturers_name_key", IsUnique = true)]
-    public partial class Manufacturer
+    public class Manufacturer : EntityBase
     {
         public Manufacturer()
         {
             Items = new HashSet<Item>();
         }
 
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Required]
         [Column("name")]
         [StringLength(254)]

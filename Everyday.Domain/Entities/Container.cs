@@ -1,16 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Everyday.Domain.Entities
 {
     [Table("containers")]
-    public class Container
+    public class Container : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Column("trashtypeid")]
         public int TrashTypeId { get; set; }
         [Column("isreusable")]

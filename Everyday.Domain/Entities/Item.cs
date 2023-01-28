@@ -6,7 +6,7 @@ namespace Everyday.Domain.Entities
 {
     [Table("items")]
     [Index(nameof(Code), Name = "uq_items_code", IsUnique = true)]
-    public partial class Item
+    public class Item : EntityBase
     {
         public Item()
         {
@@ -15,11 +15,6 @@ namespace Everyday.Domain.Entities
             ExistingItems = new HashSet<ExistingItem>();
         }
 
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Column("code")]
         [StringLength(254)]
         public string? Code { get; set; }

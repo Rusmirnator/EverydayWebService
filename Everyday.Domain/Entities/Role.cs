@@ -6,13 +6,8 @@ namespace Everyday.Domain.Entities
 {
     [Table("roles")]
     [Index(nameof(Name), Name = "roles_name_key", IsUnique = true)]
-    public partial class Role
+    public class Role : EntityBase
     {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Column("createdt")]
-        public DateTime CreateDT { get; set; }
         [Required]
         [Column("name")]
         [StringLength(50)]

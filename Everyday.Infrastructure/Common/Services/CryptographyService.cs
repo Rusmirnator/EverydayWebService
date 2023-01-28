@@ -1,5 +1,5 @@
 ﻿using Everyday.Application.Common.Interfaces.Services;
-using Everyday.Domain.Enums;
+using Everyday.Infrastructure.Enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
