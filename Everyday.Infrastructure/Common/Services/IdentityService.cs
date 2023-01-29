@@ -11,13 +11,15 @@ namespace Everyday.Infrastructure.Common.Services
         #region Fields & Properties
         private readonly IEverydayDbContext context;
         private readonly ITokenService tokenService;
+        private readonly ICryptographyService cryptoService;
         #endregion
 
         #region CTOR
-        public IdentityService(IEverydayDbContext context, ITokenService tokenService)
+        public IdentityService(IEverydayDbContext context, ITokenService tokenService, ICryptographyService cryptoService)
         {
             this.context = context;
             this.tokenService = tokenService;
+            this.cryptoService = cryptoService;
         }
         #endregion
 
@@ -25,7 +27,8 @@ namespace Everyday.Infrastructure.Common.Services
         public async Task<UserResponseModel?> LoginAsync(LoginRequestModel loginData)
         {
             UserResponseModel? validUser =
-                await GetUserByCredentialsAsync(loginData.UserUniqueIdentifier!, loginData.EncodedPassword!);
+                await GetUserByCredentialsAsync(loginData.UserUniqueIdentifier!,
+                                                cryptoService.Decrypt(loginData.EncodedPassword!));
 
             if (validUser is null)
             {
@@ -47,8 +50,8 @@ namespace Everyday.Infrastructure.Common.Services
         private async Task<UserResponseModel?> GetUserByCredentialsAsync(string login, string password)
         {
             return (await context.Users
-                            .FirstOrDefaultAsync(u => u.Login!.Equals(login)
-                                                    && u.Password!.Equals(password))).ToResponse();
+                        .FirstOrDefaultAsync(u => u.Login!.Equals(login)
+                                                && u.Password!.Equals(cryptoService.CreateShaDigest(password)))).ToResponse();
         }
         #endregion
     }

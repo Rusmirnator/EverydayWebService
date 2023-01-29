@@ -24,10 +24,10 @@ namespace Everyday.Infrastructure
             {
                 TokenService service = new();
 
-                service.Options = new TokenOptions(configuration.GetValue<int>("JWT:Lifetime"),
-                                                   configuration["JWT:Key"],
-                                                   configuration["JWT:Issuer"],
-                                                   configuration["JWT:Audience"]);
+                service.Options = new TokenOptions(configuration.GetValue<int>("Jwt:Lifetime"),
+                                                   configuration["Jwt:Key"],
+                                                   configuration["Jwt:Issuer"],
+                                                   configuration["Jwt:Audience"]);
 
                 return service;
             })
