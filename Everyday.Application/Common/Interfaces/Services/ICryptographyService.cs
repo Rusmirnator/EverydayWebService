@@ -1,8 +1,10 @@
-﻿namespace Everyday.Application.Common.Interfaces.Services
+﻿using Everyday.Application.Common.Interfaces.Structures;
+
+namespace Everyday.Application.Common.Interfaces.Services
 {
     public interface ICryptographyService
     {
-        public string AESKey { get; }
+        public ICryptographyOptions? Options { get; set; }
 
         public string Encrypt(string rawText);
         public string Decrypt(string encodedText);

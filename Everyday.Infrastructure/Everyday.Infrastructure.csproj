@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Everyday.Application\Everyday.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
+
 </Project>

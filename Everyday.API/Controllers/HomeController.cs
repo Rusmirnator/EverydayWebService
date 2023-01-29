@@ -1,7 +1,8 @@
 ﻿using Everyday.Application.Common.Interfaces.Services;
+using Everyday.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Threading.Tasks;
 
 namespace Everyday.API.Controllers
@@ -10,39 +11,39 @@ namespace Everyday.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IConfiguration config;
-        private readonly ITokenService tokenService;
+        private readonly IIdentityService identityService;
 
-        public HomeController(IConfiguration config,ITokenService tokenService)
+        public HomeController(IIdentityService identityService)
         {
-            this.config = config;
-            this.tokenService = tokenService;
+            this.identityService = identityService;
         }
 
         [AllowAnonymous]
-        [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> LoginAsync([FromQuery] string login, [FromQuery] string password)
+        [SwaggerResponse(400, "Provided login or password is empty or has invalid format!")]
+        [SwaggerResponse(401, "Provided login or password is invalid!")]
+        [SwaggerResponse(404, "Requested user account does not exist!")]
+        [SwaggerResponse(200, "Authenticated successfuly!", typeof(UserResponseModel))]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestModel loginRequest)
         {
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            if (!ModelState.IsValid)
             {
-                return StatusCode(400, "Provided login or password has invalid format or is empty!");
+                return BadRequest(ModelState);
             }
 
-            //UserModel validUser = await userService.GetUserAsync(login, password);
+            UserResponseModel validUser = await identityService.LoginAsync(loginRequest);
 
-            //if (validUser is not null)
-            //{
-            //    string generatedToken = tokenService
-            //        .BuildToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], validUser);
+            if (validUser is null)
+            {
+                return NotFound("Requested user account does not exist!");
+            }
 
-            //    if (generatedToken != null && tokenService.ValidateToken(config["Jwt:Key"], config["Jwt:Issuer"], config["Jwt:Audience"], generatedToken))
-            //    {
-            //        return Ok(generatedToken);
-            //    }
-            //    return StatusCode(500, "Created JWT is invalid!");
-            //}
-            return StatusCode(401, $"Provided login or password is invalid!");
+            if (string.IsNullOrEmpty(validUser.EncodedToken))
+            {
+                return Unauthorized("Provided login or password is invalid!");
+            }
+
+            return Ok(validUser);
         }
     }
 }

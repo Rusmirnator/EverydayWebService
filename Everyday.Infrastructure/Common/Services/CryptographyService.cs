@@ -1,6 +1,6 @@
 ﻿using Everyday.Application.Common.Interfaces.Services;
+using Everyday.Application.Common.Interfaces.Structures;
 using Everyday.Infrastructure.Enums;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,31 +9,28 @@ namespace Everyday.Infrastructure.Common.Services
 {
     public class CryptographyService : ICryptographyService
     {
-        #region Fields && Properties
-        private readonly IConfiguration config;
+        #region Fields & Properties
         private readonly ILogger<CryptographyService> logger;
 
-        public string AESKey { get; }
+        public ICryptographyOptions? Options { get; set; }
         #endregion
 
         #region CTOR
-        public CryptographyService(IConfiguration config, ILogger<CryptographyService> logger)
+        public CryptographyService(ILogger<CryptographyService> logger)
         {
-            this.config = config;
             this.logger = logger;
-            AESKey = this.config["Encryption:AESKey"];
         }
         #endregion
 
         #region Public API
         public string Encrypt(string rawText)
         {
-            return EncryptAES(rawText, true, AesType.AES256, AESKey);
+            return EncryptAES(rawText, true, Options?.AesType, Options?.AesKey);
         }
 
         public string Decrypt(string encryptedText)
         {
-            return DecryptAES(encryptedText, true, AesType.AES256, AESKey);
+            return DecryptAES(encryptedText, true, Options?.AesType, Options?.AesKey);
         }
 
         /// <summary>
@@ -57,7 +54,8 @@ namespace Everyday.Infrastructure.Common.Services
         #endregion
 
         #region Private API
-        public string DecryptAES(string encryptedText, bool useHashing, AesType aesType, string key = "", string iv = "")
+        public string DecryptAES(string encryptedText, bool useHashing, AesType? aesType = AesType.AES256,
+            string? key = "", string iv = "")
         {
             string result = "";
 
@@ -111,7 +109,8 @@ namespace Everyday.Infrastructure.Common.Services
             return result;
         }
 
-        private string EncryptAES(string rawText, bool useHashing, AesType aesType, string key = "", string iv = "")
+        private string EncryptAES(string rawText, bool useHashing, AesType? aesType = AesType.AES256,
+            string? key = "", string iv = "")
         {
             string result = "";
 
@@ -165,7 +164,7 @@ namespace Everyday.Infrastructure.Common.Services
             return result;
         }
 
-        private byte[] PrepareAESKey(bool useHashing, AesType aesType, string key = "")
+        private byte[] PrepareAESKey(bool useHashing, AesType? aesType = AesType.AES256, string? key = "")
         {
             byte[] keybytes;
 
@@ -177,18 +176,18 @@ namespace Everyday.Infrastructure.Common.Services
                     case AesType.AES128:
                         {
                             keybytes = new byte[16];
-                            Buffer.BlockCopy(hashsha256.ComputeHash(Encoding.UTF8.GetBytes(key)), 0, keybytes, 0, 16);
+                            Buffer.BlockCopy(hashsha256.ComputeHash(Encoding.UTF8.GetBytes(key!)), 0, keybytes, 0, 16);
                         }
                         break;
                     case AesType.AES192:
                         {
                             keybytes = new byte[24];
-                            Buffer.BlockCopy(hashsha256.ComputeHash(Encoding.UTF8.GetBytes(key)), 0, keybytes, 0, 24);
+                            Buffer.BlockCopy(hashsha256.ComputeHash(Encoding.UTF8.GetBytes(key!)), 0, keybytes, 0, 24);
                         }
                         break;
                     case AesType.AES256:
                         {
-                            keybytes = hashsha256.ComputeHash(Encoding.UTF8.GetBytes(key));
+                            keybytes = hashsha256.ComputeHash(Encoding.UTF8.GetBytes(key!));
                         }
                         break;
                     default:
@@ -201,7 +200,7 @@ namespace Everyday.Infrastructure.Common.Services
             }
             else
             {
-                keybytes = Encoding.UTF8.GetBytes(key);
+                keybytes = Encoding.UTF8.GetBytes(key!);
             }
 
             try

@@ -5,7 +5,7 @@ namespace Everyday.Application.Common.Mappings
 {
     public static class MappingExtensions
     {
-        public static UserResponseModel? ToResponse(this User entity)
+        public static UserResponseModel? ToResponse(this User? entity)
         {
             if (entity is null)
             {

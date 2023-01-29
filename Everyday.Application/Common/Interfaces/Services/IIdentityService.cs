@@ -4,6 +4,6 @@ namespace Everyday.Application.Common.Interfaces.Services
 {
     public interface IIdentityService
     {
-        public Task<UserResponseModel> LoginAsync(LoginRequestModel loginData);
+        public Task<UserResponseModel?> LoginAsync(LoginRequestModel loginData);
     }
 }

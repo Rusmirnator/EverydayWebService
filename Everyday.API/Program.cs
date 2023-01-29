@@ -1,15 +1,10 @@
 using Everyday.API.Middleware;
-using Everyday.Application.Common.Interfaces.Services;
-using Everyday.Infrastructure.Common.Services;
+using Everyday.Infrastructure;
 using Everyday.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -17,37 +12,47 @@ namespace Everyday.API
 {
     public class Program
     {
-        public IConfiguration Configuration { get; }
-
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateApp(args).Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
+        public static WebApplication CreateApp(string[] args)
         {
-            return Host.CreateDefaultBuilder(args)
-            .ConfigureLogging(logging =>
-            {
-                logging.ClearProviders();
-                logging.AddConsole();
-            })
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.Build();
-            });
+            var builder = WebApplication.CreateBuilder(args);
+
+            ConfigureServices(builder.Services, builder.Configuration);
+
+            var app = builder.Build();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.UseMiddleware<ErrorHandlingMeddleware>();
+
+            return app;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddSession()
                     .AddDistributedMemoryCache()
                     .AddPersistenceServices()
-                    .AddScoped<ICryptographyService, CryptographyService>()
-                    .AddScoped<ITokenService, TokenService>();
+                    .AddInfrastructureServices(configuration);
 
-            services.AddControllers()
+            services.AddTransient<ErrorHandlingMeddleware>();
+
+            services.AddSwaggerGen();
+            services.AddRouting(x => x.LowercaseUrls = true);
+
+            services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false)
                     .AddNewtonsoftJson(options =>
                     {
                         options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -63,38 +68,10 @@ namespace Everyday.API
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    ValidAudience = configuration["Jwt:Audience"],
+                    ValidIssuer = configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseHttpsRedirection();
-            }
-
-            app.UseMiddleware<ErrorHandlingMeddleware>();
-
-            app.UseAuthentication();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.All
             });
         }
     }

@@ -1,10 +1,12 @@
-﻿using Everyday.Application.Common.Models;
+﻿using Everyday.Application.Common.Interfaces.Structures;
+using Everyday.Application.Common.Models;
 
 namespace Everyday.Application.Common.Interfaces.Services
 {
     public interface ITokenService
     {
-        public string BuildToken(string key, string issuer, string audience, UserResponseModel user);
-        public bool ValidateToken(string key, string issuer, string audience, string token);
+        public ITokenOptions? Options { get; set; }
+        public string BuildToken(UserResponseModel user);
+        public bool ValidateToken(string encodedToken);
     }
 }

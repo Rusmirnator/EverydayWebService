@@ -1,4 +1,5 @@
 ﻿using Everyday.Application.Common.Interfaces.Services;
+using Everyday.Application.Common.Interfaces.Structures;
 using Everyday.Application.Common.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,9 +10,16 @@ namespace Everyday.Infrastructure.Common.Services
 {
     public class TokenService : ITokenService
     {
-        private const double EXPIRY_DURATION_MINUTES = 480;
+        #region Fields & Properties
+        public ITokenOptions? Options { get; set; }
+        #endregion
 
-        public string BuildToken(string key, string issuer, string audience, UserResponseModel user)
+        #region CTOR
+        public TokenService() { }
+        #endregion
+
+        #region Public API
+        public string BuildToken(UserResponseModel user)
         {
             List<Claim> claims = new()
             {
@@ -24,29 +32,35 @@ namespace Everyday.Infrastructure.Common.Services
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(key));
+            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(Options!.Key));
             SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            JwtSecurityToken tokenDescriptor = new(issuer, audience, claims,
-                expires: DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES), signingCredentials: credentials);
+            JwtSecurityToken tokenDescriptor = new(Options.Issuer, Options.Audience, claims,
+                expires: DateTime.Now.AddMinutes(Options.LifetimeMinutes), signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
-        public bool ValidateToken(string key, string issuer, string audience, string token)
+
+        public bool ValidateToken(string encodedToken)
         {
-            byte[] secret = Encoding.UTF8.GetBytes(key);
+            if (Options is null)
+            {
+                throw new ApplicationException($"{nameof(TokenService)} is not configured correctly!");
+            }
+
+            byte[] secret = Encoding.UTF8.GetBytes(Options.Key);
             SymmetricSecurityKey mySecurityKey = new(secret);
             JwtSecurityTokenHandler tokenHandler = new();
 
             try
             {
-                tokenHandler.ValidateToken(token,
+                tokenHandler.ValidateToken(encodedToken,
                 new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
+                    ValidIssuer = Options.Issuer,
+                    ValidAudience = Options.Audience,
                     IssuerSigningKey = mySecurityKey,
                 }, out SecurityToken validatedToken);
             }
@@ -56,5 +70,6 @@ namespace Everyday.Infrastructure.Common.Services
             }
             return true;
         }
+        #endregion
     }
 }

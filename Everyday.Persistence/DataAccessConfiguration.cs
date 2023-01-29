@@ -24,7 +24,7 @@ namespace Everyday.Persistence
                 }
 
                 options
-                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("DATABASE_URL")), options =>
+                    .UseNpgsql(BuildConnectionString(Environment.GetEnvironmentVariable("PG_CONNSTRING_DEV")), options =>
                     {
                         options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                     });
@@ -43,7 +43,7 @@ namespace Everyday.Persistence
                     $"Password={uri.UserInfo.Split(':')[1]};Database={uri.LocalPath[1..]};" +
                     $"Port={uri.Port};sslmode=Require;Trust Server Certificate=true";
             }
-            return string.Empty;
+            return databaseUrl ?? string.Empty;
         }
         #endregion
     }
