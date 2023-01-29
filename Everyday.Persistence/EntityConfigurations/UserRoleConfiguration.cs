@@ -9,6 +9,10 @@ namespace Everyday.Persistence.EntityConfigurations
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.Property(e => e.Id).UseIdentityAlwaysColumn();
+
+            builder.Property(e => e.CreatedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }
 }

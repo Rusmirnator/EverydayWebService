@@ -61,7 +61,8 @@ namespace Everyday.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("Relational:Collation", "en_US.UTF-8")
+                .UseDatabaseTemplate("template0")
+                .HasAnnotation("Relational:Collation", "en-US")
                 .ApplyConfiguration(new ConsumableConfiguration())
                 .ApplyConfiguration(new ContainerConfiguration())
                 .ApplyConfiguration(new DictionaryConfiguration())

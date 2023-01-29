@@ -10,6 +10,10 @@ namespace Everyday.Persistence.EntityConfigurations
         {
             builder.Property(e => e.Id).UseIdentityAlwaysColumn();
 
+            builder.Property(e => e.CreatedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
             builder.HasOne(d => d.Category)
                 .WithMany(p => p.Dictionaries)
                 .HasForeignKey(d => d.CategoryId)

@@ -11,7 +11,9 @@ namespace Everyday.Persistence.EntityConfigurations
 
             builder.Property(e => e.Id).UseIdentityAlwaysColumn();
 
-            builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.Now);
+            builder.Property(e => e.CreatedAt)
+                .HasColumnType("timestamp without time zone")
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             builder.HasOne(d => d.Item)
                 .WithMany(p => p.Consumables)
