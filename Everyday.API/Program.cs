@@ -1,6 +1,7 @@
 using Everyday.API.Middleware;
 using Everyday.Infrastructure;
 using Everyday.Persistence;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -73,6 +74,8 @@ namespace Everyday.API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
+
+            services.AddMediatR(typeof(Program));
         }
     }
 }

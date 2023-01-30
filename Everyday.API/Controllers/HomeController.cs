@@ -1,5 +1,5 @@
-﻿using Everyday.Application.Common.Interfaces.Services;
-using Everyday.Application.Common.Models;
+﻿using Everyday.Application.Common.Models;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -11,11 +11,11 @@ namespace Everyday.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly IIdentityService identityService;
+        private readonly IMediator mediator;
 
-        public HomeController(IIdentityService identityService)
+        public HomeController(IMediator mediator)
         {
-            this.identityService = identityService;
+            this.mediator = mediator;
         }
 
         [AllowAnonymous]
@@ -31,7 +31,7 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            UserResponseModel validUser = await identityService.LoginAsync(loginRequest);
+            UserResponseModel validUser = default;
 
             if (validUser is null)
             {
