@@ -1,4 +1,5 @@
 ﻿using Everyday.Application.Common.Models;
+using Everyday.Application.Common.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            UserResponseModel validUser = default;
+            UserResponseModel validUser = await mediator.Send(new GetUserToken(loginRequest));
 
             if (validUser is null)
             {

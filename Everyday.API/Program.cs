@@ -1,4 +1,5 @@
 using Everyday.API.Middleware;
+using Everyday.Application;
 using Everyday.Infrastructure;
 using Everyday.Persistence;
 using MediatR;
@@ -45,6 +46,7 @@ namespace Everyday.API
         {
             services.AddSession()
                     .AddDistributedMemoryCache()
+                    .AddApplicationServices()
                     .AddPersistenceServices()
                     .AddInfrastructureServices(configuration);
 
@@ -74,8 +76,6 @@ namespace Everyday.API
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
-
-            services.AddMediatR(typeof(Program));
         }
     }
 }
