@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Everyday.Application.Common.Handlers
 {
-    public class GetUserTokenHandler : IRequestHandler<GetUserToken, UserResponseModel?>
+    public class GetUserTokenHandler : IRequestHandler<GetUserTokenQuery, UserResponseModel?>
     {
         private readonly IIdentityService identityService;
 
@@ -14,7 +14,7 @@ namespace Everyday.Application.Common.Handlers
             this.identityService = identityService;
         }
 
-        public async Task<UserResponseModel?> Handle(GetUserToken request, CancellationToken cancellationToken)
+        public async Task<UserResponseModel?> Handle(GetUserTokenQuery request, CancellationToken cancellationToken)
         {
             if (cancellationToken.IsCancellationRequested)
             {

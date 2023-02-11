@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Everyday.Application.Common.Queries
 {
-    public record GetUserToken(LoginRequestModel Login) : IRequest<UserResponseModel>;
+    public record GetUserTokenQuery(LoginRequestModel Login) : IRequest<UserResponseModel>;
 }

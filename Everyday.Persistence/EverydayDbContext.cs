@@ -62,7 +62,7 @@ namespace Everyday.Persistence
         {
             modelBuilder
                 .UseDatabaseTemplate("template0")
-                .HasAnnotation("Relational:Collation", "en-US")
+                .HasAnnotation("Relational:Collation", "en_US.utf8")
                 .ApplyConfiguration(new ConsumableConfiguration())
                 .ApplyConfiguration(new ContainerConfiguration())
                 .ApplyConfiguration(new DictionaryConfiguration())

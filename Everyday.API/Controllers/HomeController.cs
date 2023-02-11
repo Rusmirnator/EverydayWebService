@@ -32,7 +32,7 @@ namespace Everyday.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            UserResponseModel validUser = await mediator.Send(new GetUserToken(loginRequest));
+            UserResponseModel validUser = await mediator.Send(new GetUserTokenQuery(loginRequest));
 
             if (validUser is null)
             {
