@@ -36,13 +36,13 @@ namespace Everyday.Persistence
         #endregion
 
         #region Public API
-        public async Task<IOperationResult> SaveChangesAsync()
+        async Task<IOperationResult> IEverydayDbContext.SaveChangesAsync(CancellationToken cancellationRequest)
         {
             string message = string.Empty;
 
             try
             {
-                _ = await base.SaveChangesAsync();
+                _ = await base.SaveChangesAsync(cancellationRequest);
 
                 return new OperationResultModel(true, message);
             }

@@ -19,6 +19,6 @@ namespace Everyday.Application.Common.Interfaces.DataAccess
         public DbSet<User> Users { get; }
         public DbSet<UserRole> UserRoles { get; }
 
-        public Task<IOperationResult> SaveChangesAsync();
+        public Task<IOperationResult> SaveChangesAsync(CancellationToken cancellationRequest = default);
     }
 }
